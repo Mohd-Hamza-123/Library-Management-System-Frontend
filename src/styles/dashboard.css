@@ -1,0 +1,7 @@
+.dashboard-bg-image {
+    height: 250px;
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) , url("/images/dashboard-bg.jpg");
+}
