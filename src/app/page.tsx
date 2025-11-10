@@ -1,8 +1,7 @@
 import React from 'react'
-import { Book, User } from 'lucide-react'
-import Header from '@/components/Header/Header'
 import Card from '@/components/Card'
 import Sidebar from '@/components/Sidebar'
+import Header from '@/components/Header/Header'
 import Dashboard from '@/components/Dashboard/Dashboard'
 
 export default function Home() {

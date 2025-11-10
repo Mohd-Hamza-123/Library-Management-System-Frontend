@@ -36,27 +36,6 @@ export default function Header({
             <div className="text-xs text-slate-400 tracking-wider">LIBRARY-MANAGEMENT</div>
           </div>
         </div>
-
-        {/* center: spacer (keeps header balanced) */}
-        <div className="flex-1" />
-
-        {/* right: icons + profile */}
-        <div className="flex items-center gap-6">
-         
-
-          <button
-            aria-label="Notifications"
-            className="p-2 rounded-md hover:bg-slate-50 active:scale-95 transition relative"
-            title="Notifications"
-          >
-            {/* <Bell size={20} className="text-slate-700" /> */}
-            {/* small red dot for new notifications */}
-            <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
-          </button>
-
-        
-         
-        </div>
       </div>
     </motion.header>
 

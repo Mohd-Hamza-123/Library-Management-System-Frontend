@@ -3,6 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
 svg {
   cursor: pointer;
 }
@@ -17,6 +18,9 @@ svg {
 .show-title-trigger:hover+.title {
   opacity: 1;
 }
+
+
+
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
