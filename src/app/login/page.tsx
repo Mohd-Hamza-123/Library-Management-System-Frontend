@@ -1,15 +1,18 @@
-import { FiMail, FiLock } from 'react-icons/fi'
-import { FcGoogle } from 'react-icons/fc'
-import Image from 'next/image'
 import Link from 'next/link'
+import Image from 'next/image'
+import { GoToHome } from '@/components'
+import { FcGoogle } from 'react-icons/fc'
+import { FiMail, FiLock } from 'react-icons/fi'
 
 export default function Login() {
+
+
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-
+            <GoToHome />
             <div className='w-1/3'>
                 <div className="flex flex-col items-center mb-6">
-                    <Image src='/images/logo.png' width={50} height={50} alt="logo" />
+                    <Image src='/images/ms-academy.png' width={50} height={50} alt="logo" />
                     <h2 className="text-2xl font-semibold text-gray-800">Log In to Your Account</h2>
                 </div>
 
@@ -60,7 +63,7 @@ export default function Login() {
 
                     <p className="text-center text-sm text-gray-500 mt-4">
                         Don't have an account?{' '}
-                        <Link href="/signin" className="text-red-700 font-medium hover:underline">Register</Link>
+                        <Link href="/signup" className="text-red-700 font-medium hover:underline">Register</Link>
                     </p>
                 </form>
             </div>
