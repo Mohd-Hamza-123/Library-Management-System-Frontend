@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { loginUser } from './actions'
 import { GoToHome } from '@/components'
 import { FcGoogle } from 'react-icons/fc'
 import { FiMail, FiLock } from 'react-icons/fi'
 
 export default function Login() {
-
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
@@ -16,12 +16,13 @@ export default function Login() {
                     <h2 className="text-2xl font-semibold text-gray-800">Log In to Your Account</h2>
                 </div>
 
-                <form className="space-y-5">
+                <form className="space-y-5" action={loginUser}>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                         <div className="relative">
                             <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                             <input
+                                name='email'
                                 type="email"
                                 placeholder="you@company.com"
                                 className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white text-sm focus:ring-2 focus:ring-indigo-100 focus:border-indigo-300 outline-none"
@@ -34,6 +35,7 @@ export default function Login() {
                         <div className="relative">
                             <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                             <input
+                                name='password'
                                 type="password"
                                 placeholder="••••••••"
                                 className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white text-sm focus:ring-2 focus:ring-indigo-100 focus:border-indigo-300 outline-none"
@@ -42,9 +44,8 @@ export default function Login() {
                     </div>
 
                     <button
-                        type="button"
-                        className="w-full bg-red-700 hover:bg-red-800 text-white py-2.5 rounded-lg font-medium text-sm transition"
-                    >
+                        type="submit"
+                        className="w-full bg-red-700 hover:bg-red-800 text-white py-2.5 rounded-lg font-medium text-sm transition">
                         Sign In
                     </button>
 

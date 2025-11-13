@@ -4,6 +4,8 @@ import { MongoClient } from "mongodb";
 import { cookies } from "next/headers";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { nextCookies } from "better-auth/next-js";
+
 
 const client = new MongoClient(conf.MONGO_DB_URI);
 const db = client.db(conf.MONGO_DB_DATABASE_1);
@@ -15,14 +17,15 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
     },
+    plugins: [nextCookies()]
 });
 
-export const getCurrentUser = async () => {
+export const getCurrentUserServer = async () => {
     try {
         const cookie = cookies()
         const session = await auth.api.getSession({
-            headers : {
-                cookie : (await cookie).toString()
+            headers: {
+                cookie: (await cookie).toString()
             }
         })
         // console.log("session : ")
@@ -33,3 +36,4 @@ export const getCurrentUser = async () => {
         return null
     }
 }
+

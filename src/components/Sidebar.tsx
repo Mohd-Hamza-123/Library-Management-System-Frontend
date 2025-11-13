@@ -3,14 +3,14 @@ import Title from './Title'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Icons } from './Icons'
-import { getCurrentUser } from '@/lib/auth'
+import { CurrentSession } from "./index"
 
 type NavItemProps = {
     title: string;
     children: React.ReactNode;
 }
 
-function NavItem({ title, children }: NavItemProps) {
+export function NavItem({ title, children }: NavItemProps) {
     return <button
         className="p-2 rounded-md hover:bg-slate-100 active:scale-95 transition relative">
         {children}
@@ -19,9 +19,6 @@ function NavItem({ title, children }: NavItemProps) {
 }
 
 export default async function Sidebar() {
-
-    const user = await getCurrentUser()
-    console.log("session ", user)
 
     return (
         <aside className='w-[11dvh] h-full flex flex-col justify-evenly items-center'>
@@ -33,7 +30,7 @@ export default async function Sidebar() {
                 </NavItem>
 
                 <NavItem title='toggle'>
-                    <Icons.toggleOff className='text-gray-800 cursor-pointer hover:text-red-800  transition-colors duration-500 show-title-trigger hover:scale-110 not-visited:text-xl'/>
+                    <Icons.toggleOff className='text-gray-800 cursor-pointer hover:text-red-800  transition-colors duration-500 show-title-trigger hover:scale-110 not-visited:text-xl' />
                 </NavItem>
 
                 <NavItem title='admin'>
@@ -64,18 +61,7 @@ export default async function Sidebar() {
                         />
                     </div>
                 </button>
-
-                {user ? <NavItem title='logout'>
-                    <Icons.logout className='text-gray-800 cursor-pointer hover:text-red-800  transition-colors duration-500 show-title-trigger hover:scale-110 text-xl' />
-                </NavItem> :
-                    <Link href="/login">
-                        <NavItem title='login'>
-                            <Icons.login
-                                className='text-gray-800 cursor-pointer hover:text-red-800  transition-colors duration-500 show-title-trigger text-xl hover:scale-110'
-                            />
-                        </NavItem>
-                    </Link>
-                }
+                <CurrentSession />
             </div>
         </aside>
     )

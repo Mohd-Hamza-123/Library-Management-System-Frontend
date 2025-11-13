@@ -19,7 +19,7 @@ export default function Header({
 
 
   const d = useAppSelector((state) => state.booleanSlice.value)
-  console.log(d)
+  // console.log(d)
 
 
   return (
