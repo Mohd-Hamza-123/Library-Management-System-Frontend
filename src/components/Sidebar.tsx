@@ -35,12 +35,12 @@ export default async function Sidebar() {
 
                 <NavItem title='admin'>
                     <Icons.admin
-                        className="text-gray-800 hover:text-red-800 hover:scale-110 transition-colors duration-500 show-title-trigger show-title-trigger text-xl"/>
+                        className="text-gray-800 hover:text-red-800 hover:scale-110 transition-colors duration-500 show-title-trigger show-title-trigger text-xl" />
                 </NavItem>
 
                 <NavItem title='settings'>
                     <Icons.gear
-                        className='text-gray-800 cursor-pointer hover:text-red-800  transition-colors duration-500 show-title-trigger hover:rotate-10 hover:scale-110 text-xl'/>
+                        className='text-gray-800 cursor-pointer hover:text-red-800  transition-colors duration-500 show-title-trigger hover:rotate-10 hover:scale-110 text-xl' />
                 </NavItem>
             </div>
 
