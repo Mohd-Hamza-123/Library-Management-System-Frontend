@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import booleanSlice from "./features/booleanSlice"
+import authSlice from "./features/authSlice"
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-        booleanSlice : booleanSlice
+        booleanSlice,
+        authSlice,
     }
   })
 }

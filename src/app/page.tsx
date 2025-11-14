@@ -3,7 +3,7 @@ import Sidebar from '@/components/Sidebar'
 import Header from '@/components/Header/Header'
 import Dashboard from '@/components/Dashboard/Dashboard'
 
-export default function Home() {
+export default async function Home() {
 
   return (
     <div>

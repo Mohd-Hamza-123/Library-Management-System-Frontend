@@ -3,7 +3,7 @@ import Title from './Title'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Icons } from './Icons'
-import { CurrentSession } from "./index"
+import { CurrentSession, ProfileLink } from "./index"
 
 type NavItemProps = {
     title: string;
@@ -35,32 +35,32 @@ export default async function Sidebar() {
 
                 <NavItem title='admin'>
                     <Icons.admin
-                        className="text-gray-800 hover:text-red-800 hover:scale-110 transition-colors duration-500 show-title-trigger show-title-trigger text-xl"
-                    />
+                        className="text-gray-800 hover:text-red-800 hover:scale-110 transition-colors duration-500 show-title-trigger show-title-trigger text-xl"/>
                 </NavItem>
 
                 <NavItem title='settings'>
                     <Icons.gear
-                        className='text-gray-800 cursor-pointer hover:text-red-800  transition-colors duration-500 show-title-trigger hover:rotate-10 hover:scale-110 text-xl'
-                    />
+                        className='text-gray-800 cursor-pointer hover:text-red-800  transition-colors duration-500 show-title-trigger hover:rotate-10 hover:scale-110 text-xl'/>
                 </NavItem>
-
             </div>
 
+
             <div className="relative flex flex-col items-center gap-4">
-                <button
-                    className="flex items-center gap-3 rounded-full px-2 py-1 hover:bg-slate-50 transition"
-                    aria-haspopup="true">
-                    <div className="h-9 w-9 rounded-full ring-1 ring-slate-200 overflow-hidden">
-                        <Image
-                            className="h-full w-full object-cover"
-                            src='/images/logo.png'
-                            height={20}
-                            width={20}
-                            alt={`j`}
-                        />
-                    </div>
-                </button>
+                <ProfileLink>
+                    <button
+                        className="flex items-center gap-3 rounded-full px-2 py-1 hover:bg-slate-50 transition cursor-pointer"
+                        aria-haspopup="true">
+                        <div className="h-9 w-9 rounded-full ring-1 ring-slate-200 overflow-hidden">
+                            <Image
+                                className="h-full w-full object-cover"
+                                src='/images/logo.png'
+                                alt="profile"
+                                height={20}
+                                width={20}
+                            />
+                        </div>
+                    </button>
+                </ProfileLink>
                 <CurrentSession />
             </div>
         </aside>

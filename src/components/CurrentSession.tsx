@@ -3,23 +3,29 @@
 import Link from 'next/link'
 import { Icons } from './Icons'
 import { NavItem } from './Sidebar'
+import { apiResponse } from '@/types/api'
+import { useAppDispatch } from '@/lib/hooks'
+import { login } from '@/lib/features/authSlice'
 import React, { useEffect, useState } from 'react'
 import { getSession } from '@/utils/sessionClient'
-import { apiResponse } from '@/types/api'
 
 export default function CurrentSession() {
 
+    const dispatch = useAppDispatch()
     const [user, setUser] = useState<apiResponse | null>(null)
-    console.log(user)
 
     useEffect(() => {
         (async () => {
             const session = await getSession()
             setUser(session)
+            if (!session.success) return
+            const user = session.data.user
+            console.log(user)
+            dispatch(login({ userData: user }))
         })()
     }, [])
 
-    if (!user) return null
+    if (!user) return null;
 
     return (
         <>

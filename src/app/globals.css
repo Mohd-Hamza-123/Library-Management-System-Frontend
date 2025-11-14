@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 
-svg {
+svg{
   cursor: pointer;
 }
 
