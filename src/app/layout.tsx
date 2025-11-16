@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
+import type { Metadata } from "next";
 import Providers from "@/Providers/Providers";
+import { Toaster } from "@/components/ui/sonner"
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,9 +33,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <body
         className={`${poppins.className} antialiased`}>
-        <Providers>
-          {children}
-        </Providers>
+        <Toaster />
+        <Providers> {children} </Providers>
       </body>
     </html>
   );

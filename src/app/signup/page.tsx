@@ -10,7 +10,7 @@ import { GoToHome } from '@/components/index'
 export default function SignUpPage() {
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+        <div className="flex flex-col items-center justify-center h-dvh bg-gray-50">
             <GoToHome />
             <div className='w-[90%] sm:w-[80%] md:w-[50%] xl:w-[35%]'>
                 <div className="flex flex-col items-center mb-6">
