@@ -72,10 +72,7 @@ export default function Dashboard() {
       {/* MAIN GRID */}
       <section className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* LEFT: main content (spans 3 cols on md+) */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.45 }}
+        <div
           className="col-span-1 md:col-span-3 bg-white rounded-2xl p-4 md:p-6 shadow">
           <div className="flex items-start justify-between gap-4">
             <div>
@@ -87,33 +84,27 @@ export default function Dashboard() {
           </div>
 
           {/* CARDS */}
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="mt-6">
+          <div className="mt-6">
 
             {/* Mobile: horizontal scroll */}
             <div className="flex flex-wrap gap-4 md:hidden overflow-x-auto pb-2 -mx-1 md:mx-0 snap-x snap-mandatory">
               {cards.map((c) => (
                 // legacyBehavior forces Link to render an <a> wrapper (Next compatibility)
-                <Link key={c.id} href={c.path} legacyBehavior>
-                  <motion.a
-                    className="min-w-[300px] flex-wrap bg-white border border-gray-100 rounded-xl p-4 text-left snap-center cursor-pointer block hover:shadow-lg"
-                    whileHover={cardHover}
-                    whileTap={{ scale: 0.98 }}
-                    role="link"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
-                        {React.cloneElement(c.icon, { className: "h-5 w-5" })}
-                      </div>
-                      <div>
-                        <div className="font-medium text-gray-800 text-sm md:text-base">{c.title}</div>
-                        <div className="text-xs text-gray-500">{c.desc}</div>
-                      </div>
+                <Link key={c.id} href={c.path}
+                  className="min-w-[300px] flex-wrap bg-white border border-gray-100 rounded-xl p-4 text-left snap-center cursor-pointer block hover:shadow-lg"
+
+                  role="link"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
+                      {React.cloneElement(c.icon, { className: "h-5 w-5" })}
                     </div>
-                  </motion.a>
+                    <div>
+                      <div className="font-medium text-gray-800 text-sm md:text-base">{c.title}</div>
+                      <div className="text-xs text-gray-500">{c.desc}</div>
+                    </div>
+                  </div>
+
                 </Link>
               ))}
             </div>
@@ -121,38 +112,34 @@ export default function Dashboard() {
             {/* md+: grid using anchors for navigation */}
             <div className="hidden md:grid md:grid-cols-4 gap-4">
               {cards.map((c) => (
-                <Link key={c.id} href={c.path} legacyBehavior>
-                  <motion.a
-                    className="group bg-gradient-to-br from-white to-gray-50 border border-gray-100 rounded-xl p-4 text-left hover:shadow-lg focus:outline-none block cursor-pointer"
-                    whileHover={cardHover}
-                    whileTap={{ scale: 0.98 }}
-                    role="link"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">{React.cloneElement(c.icon, { className: "h-5 w-5" })}</div>
-                      <div>
-                        <div className="font-medium text-gray-800">{c.title}</div>
-                        <div className="text-xs text-gray-500">{c.desc}</div>
-                      </div>
+                <Link key={c.id} href={c.path}
+                  className="group bg-gradient-to-br from-white to-gray-50 border border-gray-100 rounded-xl p-4 text-left hover:shadow-lg focus:outline-none block cursor-pointer"
+                  role="link"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">{React.cloneElement(c.icon, { className: "h-5 w-5" })}</div>
+                    <div>
+                      <div className="font-medium text-gray-800">{c.title}</div>
+                      <div className="text-xs text-gray-500">{c.desc}</div>
                     </div>
-                  </motion.a>
+                  </div>
                 </Link>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* STATS */}
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12 }} className="bg-indigo-50 rounded-lg p-4">
+            <div className="bg-indigo-50 rounded-lg p-4">
               <div className="text-sm text-indigo-700">Active Users</div>
               <div className="text-2xl md:text-3xl font-semibold mt-2">1,243</div>
-            </motion.div>
+            </div>
 
           </div>
-        </motion.div>
+        </div>
 
         {/* RIGHT: notifications */}
-        <motion.aside initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.07 }} className="bg-white rounded-2xl p-4 md:p-6 shadow">
+        <aside className="bg-white rounded-2xl p-4 md:p-6 shadow">
           <div className="md:sticky md:top-20">
             <h3 className="font-semibold text-sm md:text-base">Notifications</h3>
 
@@ -166,7 +153,7 @@ export default function Dashboard() {
               <button className="text-indigo-600 text-sm md:text-base">View all</button>
             </div>
           </div>
-        </motion.aside>
+        </aside>
       </section>
 
       <footer className="mt-6 text-right text-xs text-gray-400">MS-Lib • Library Management</footer>
