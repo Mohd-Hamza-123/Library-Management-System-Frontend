@@ -19,15 +19,18 @@ export default function CurrentSession() {
     useEffect(() => {
         (async () => {
             const session = await getSession()
+            console.log("session",session)
             setUser(session)
-            if (!session.success) return
+            if (!session.success) {
+                return 
+            }
             const user = session.data.user
-            console.log(user)
+            // console.log(user)
             dispatch(login({ userData: user }))
         })()
     }, [])
 
-    if (!user) return null;
+    if (user === null) return null;
 
     return (
         <>

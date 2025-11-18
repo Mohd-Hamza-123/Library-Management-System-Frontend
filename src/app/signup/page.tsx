@@ -5,7 +5,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { Icons } from '@/components/Icons'
 import { FiMail, FiLock } from 'react-icons/fi'
 import { Label } from '@/components/ui/label'
-import { GoToHome } from '@/components/index'
+import { GoToHome, LoadingButton } from '@/components/index'
 
 export default function SignUpPage() {
 
@@ -59,11 +59,7 @@ export default function SignUpPage() {
                         </div>
                     </div>
 
-                    <button
-                        type="submit"
-                        className="w-full bg-red-700 hover:bg-red-800 text-white py-2.5 rounded-lg font-medium text-sm transition cursor-pointer">
-                        Sign In
-                    </button>
+                    <LoadingButton content='Sign Up' />
 
                     <div className="flex items-center justify-center mt-1">
                         <div className="h-px w-20 bg-gray-200" />
@@ -79,7 +75,7 @@ export default function SignUpPage() {
 
                     <p className="text-center text-sm text-gray-500 mt-4">
                         Already have an account?{" "}
-                        <Link href="/login" className="text-red-700 font-medium hover:underline">Login</Link>
+                        <Link href="/login" className="text-indigo-600 font-medium hover:underline">Login</Link>
                     </p>
                 </form>
             </div>

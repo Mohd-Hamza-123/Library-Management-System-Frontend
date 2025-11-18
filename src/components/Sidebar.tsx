@@ -30,9 +30,6 @@ export default async function Sidebar() {
                     <Icons.mail className="text-gray-800 hover:text-red-800 hover:scale-110 transition-colors duration-500 show-title-trigger show-title-trigger text-xl" />
                 </NavItem>
 
-                <NavItem title='toggle'>
-                    <Icons.toggleOff className='text-gray-800 cursor-pointer hover:text-red-800  transition-colors duration-500 show-title-trigger hover:scale-110 not-visited:text-xl' />
-                </NavItem>
 
                 <NavItem title='admin'>
                     <Icons.admin

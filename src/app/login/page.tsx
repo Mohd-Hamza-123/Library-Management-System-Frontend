@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { loginUser } from './actions'
-import { GoToHome } from '@/components'
 import { FcGoogle } from 'react-icons/fc'
 import { FiMail, FiLock } from 'react-icons/fi'
+import { GoToHome, LoadingButton } from '@/components'
 
 export default function Login() {
 
@@ -22,6 +22,7 @@ export default function Login() {
                         <div className="relative">
                             <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                             <input
+                                required
                                 name='email'
                                 type="email"
                                 placeholder="you@company.com"
@@ -35,6 +36,8 @@ export default function Login() {
                         <div className="relative">
                             <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                             <input
+                                required
+                                minLength={8}
                                 name='password'
                                 type="password"
                                 placeholder="••••••••"
@@ -43,11 +46,7 @@ export default function Login() {
                         </div>
                     </div>
 
-                    <button
-                        type="submit"
-                        className="w-full bg-red-700 hover:bg-red-800 text-white py-2.5 rounded-lg font-medium text-sm transition">
-                        Sign In
-                    </button>
+                    <LoadingButton content='signIn' />
 
                     <div className="flex items-center justify-center mt-1">
                         <div className="h-px w-20 bg-gray-200" />
@@ -57,14 +56,13 @@ export default function Login() {
 
                     <button
                         type="button"
-                        className="w-full border border-gray-300 rounded-lg py-2.5 flex items-center justify-center gap-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
-                    >
+                        className="w-full border border-gray-300 rounded-lg py-2.5 flex items-center justify-center gap-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
                         <FcGoogle size={18} /> Login with Google
                     </button>
 
                     <p className="text-center text-sm text-gray-500 mt-4">
                         Don't have an account?{' '}
-                        <Link href="/signup" className="text-red-700 font-medium hover:underline">Register</Link>
+                        <Link href="/signup" className="text-indigo-600 font-medium hover:underline">Register</Link>
                     </p>
                 </form>
             </div>

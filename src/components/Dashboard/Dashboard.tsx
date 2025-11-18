@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import "@/styles/dashboard.css";
 import { getDateTime } from "@/utils/dates";
 import { FiBook, FiDollarSign, FiUsers, FiLayers } from "react-icons/fi";
+import { Icons } from "../Icons";
+import Link from "next/link";
 
 export default function Dashboard() {
   const cards = [
@@ -14,34 +16,27 @@ export default function Dashboard() {
       title: "Library",
       desc: "Search books, issue & return",
       icon: <FiBook className="h-6 w-6" />,
+      path: "/library-option",
     },
     {
       id: "fees",
       title: "Fees",
       desc: "Pay or view invoices",
       icon: <FiDollarSign className="h-6 w-6" />,
-    },
-    {
-      id: "faculty",
-      title: "Teaching Faculty",
-      desc: "View profiles & schedules",
-      icon: <FiUsers className="h-6 w-6" />,
+      path: "/fees",
     },
     {
       id: "courses",
       title: "Courses",
       desc: "Browse & enroll",
       icon: <FiLayers className="h-6 w-6" />,
+      path: "/courses",
     },
   ];
 
   const container = { hidden: {}, show: { transition: { staggerChildren: 0.08 } } };
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 8, scale: 0.98 },
-    show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 160, damping: 18 } },
-    hover: { scale: 1.03, y: -4, boxShadow: "0 8px 30px rgba(0,0,0,0.12)" },
-  };
+  const cardHover = { scale: 1.03, y: -4, boxShadow: "0 8px 30px rgba(0,0,0,0.12)" };
 
   return (
     <main className="h-[90dvh] overflow-y-scroll bg-gray-50 px-4 pt-4 pb-8 md:p-6 lg:p-8">
@@ -65,10 +60,8 @@ export default function Dashboard() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="hidden sm:inline-block bg-white/10 backdrop-blur-sm text-white rounded-full p-2 shadow hover:scale-105 transition-transform">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h11z" />
-              </svg>
+            <button className="hidden sm:inline-block bg-gray-200 backdrop-blur-sm text-white rounded-full p-2 shadow hover:scale-105 transition-transform">
+              <Icons.lightMode className="text-black" />
             </button>
 
             <div className="bg-white rounded-full w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-gray-700 font-medium">N</div>
@@ -79,7 +72,11 @@ export default function Dashboard() {
       {/* MAIN GRID */}
       <section className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* LEFT: main content (spans 3 cols on md+) */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.45 }} className="col-span-1 md:col-span-3 bg-white rounded-2xl p-4 md:p-6 shadow">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.45 }}
+          className="col-span-1 md:col-span-3 bg-white rounded-2xl p-4 md:p-6 shadow">
           <div className="flex items-start justify-between gap-4">
             <div>
               <h2 className="text-lg md:text-xl font-semibold">Quick Actions</h2>
@@ -90,48 +87,56 @@ export default function Dashboard() {
           </div>
 
           {/* CARDS */}
-          <motion.div variants={container} initial="hidden" animate="show" className="mt-6">
-            {/* mobile: horizontal scroll */}
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="mt-6">
+
+            {/* Mobile: horizontal scroll */}
             <div className="flex flex-wrap gap-4 md:hidden overflow-x-auto pb-2 -mx-1 md:mx-0 snap-x snap-mandatory">
               {cards.map((c) => (
-                <motion.button
-                  key={c.id}
-                  className="min-w-[300px] flex-wrap bg-white border border-gray-100 rounded-xl p-4 text-left hover:shadow-lg focus:outline-none snap-center"
-                //   variants={cardVariants}
-                  whileHover="hover"
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => console.log(c.id)}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">{React.cloneElement(c.icon, { className: "h-5 w-5" })}</div>
-                    <div>
-                      <div className="font-medium text-gray-800 text-sm md:text-base">{c.title}</div>
-                      <div className="text-xs text-gray-500">{c.desc}</div>
+                // legacyBehavior forces Link to render an <a> wrapper (Next compatibility)
+                <Link key={c.id} href={c.path} legacyBehavior>
+                  <motion.a
+                    className="min-w-[300px] flex-wrap bg-white border border-gray-100 rounded-xl p-4 text-left snap-center cursor-pointer block hover:shadow-lg"
+                    whileHover={cardHover}
+                    whileTap={{ scale: 0.98 }}
+                    role="link"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
+                        {React.cloneElement(c.icon, { className: "h-5 w-5" })}
+                      </div>
+                      <div>
+                        <div className="font-medium text-gray-800 text-sm md:text-base">{c.title}</div>
+                        <div className="text-xs text-gray-500">{c.desc}</div>
+                      </div>
                     </div>
-                  </div>
-                </motion.button>
+                  </motion.a>
+                </Link>
               ))}
             </div>
 
-            {/* md+: grid */}
+            {/* md+: grid using anchors for navigation */}
             <div className="hidden md:grid md:grid-cols-4 gap-4">
               {cards.map((c) => (
-                <motion.button
-                  key={c.id}
-                  className="group bg-gradient-to-br from-white to-gray-50 border border-gray-100 rounded-xl p-4 text-left hover:shadow-lg focus:outline-none"
-                //   variants={cardVariants}
-                  whileHover="hover"
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => console.log(c.id)}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">{React.cloneElement(c.icon, { className: "h-5 w-5" })}</div>
-                    <div>
-                      <div className="font-medium text-gray-800">{c.title}</div>
-                      <div className="text-xs text-gray-500">{c.desc}</div>
+                <Link key={c.id} href={c.path} legacyBehavior>
+                  <motion.a
+                    className="group bg-gradient-to-br from-white to-gray-50 border border-gray-100 rounded-xl p-4 text-left hover:shadow-lg focus:outline-none block cursor-pointer"
+                    whileHover={cardHover}
+                    whileTap={{ scale: 0.98 }}
+                    role="link"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">{React.cloneElement(c.icon, { className: "h-5 w-5" })}</div>
+                      <div>
+                        <div className="font-medium text-gray-800">{c.title}</div>
+                        <div className="text-xs text-gray-500">{c.desc}</div>
+                      </div>
                     </div>
-                  </div>
-                </motion.button>
+                  </motion.a>
+                </Link>
               ))}
             </div>
           </motion.div>

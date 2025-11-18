@@ -3,6 +3,7 @@ type IconProps = React.HTMLAttributes<SVGElement>
 import { IoToggleOutline } from "react-icons/io5";
 import { GoGear } from "react-icons/go";
 import { CiMail } from "react-icons/ci";
+import { MdOutlineLightMode } from "react-icons/md";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { RiLoginCircleLine } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa6";
@@ -17,4 +18,5 @@ export const Icons = {
     user: (props: IconProps) => <FaRegUser {...props} />,
     logout : (props: IconProps) => <FaPowerOff {...props} />,
     home : (props: IconProps) => <FaHome {...props} />,
+    lightMode : (props: IconProps) => <MdOutlineLightMode {...props} />
 }
