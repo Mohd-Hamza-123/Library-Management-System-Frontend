@@ -31,10 +31,12 @@ export default async function Sidebar() {
                 </NavItem>
 
 
-                <NavItem title='admin'>
-                    <Icons.admin
-                        className="text-gray-800 hover:text-red-800 hover:scale-110 transition-colors duration-500 show-title-trigger show-title-trigger text-xl" />
-                </NavItem>
+                <Link href={"/admin"}>
+                    <NavItem title='admin'>
+                        <Icons.admin
+                            className="text-gray-800 hover:text-red-800 hover:scale-110 transition-colors duration-500 show-title-trigger show-title-trigger text-xl" />
+                    </NavItem>
+                </Link>
 
                 <NavItem title='settings'>
                     <Icons.gear
