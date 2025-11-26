@@ -1,0 +1,161 @@
+import React from "react"
+
+import { Button } from "@/components/ui/button"
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+interface LibraryStudentDialogProps {
+    triggerClassName?: string;
+    label: string;
+    submitHandler?: (formData: FormData) => void;
+}
+
+export default function LibraryStudentDialog({ triggerClassName = "", label, submitHandler }: LibraryStudentDialogProps) {
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button variant="outline" className={triggerClassName}>
+                    {label}
+                </Button>
+            </DialogTrigger>
+
+            {/* Responsive dialog */}
+            <DialogContent
+                className="w-[95vw] max-w-md sm:max-w-lg md:max-w-xl max-h-[90vh]overflow-y-auto p-4 sm:p-6">
+                <DialogHeader className="space-y-1">
+                    <DialogTitle>Library Student</DialogTitle>
+                </DialogHeader>
+
+                <form className="mt-4 space-y-4" action={submitHandler}>
+                    {/* Student Name */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="name">Student Name</Label>
+                        <Input
+                            id="name"
+                            name="name"
+                            placeholder="Enter student name"
+                            required
+                        />
+                    </div>
+
+                    {/* Father Name */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="father_name">Father Name</Label>
+                        <Input
+                            id="father_name"
+                            name="father_name"
+                            placeholder="Enter father name"
+                        />
+                    </div>
+
+                    {/* Seat */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="seat">Seat</Label>
+                        <Input
+                            id="seat"
+                            name="seat"
+                            placeholder="e.g. A-12"
+                            required
+                        />
+                    </div>
+
+                    {/* Shift */}
+                    <div className="grid gap-2">
+                        <Label>Shift</Label>
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                            <div className="flex items-center gap-2">
+                                <input
+                                    id="shift-morning"
+                                    type="radio"
+                                    name="shift"
+                                    value="morning"
+                                    className="h-4 w-4"
+                                    required
+                                />
+                                <Label htmlFor="shift-morning" className="font-normal">
+                                    Morning
+                                </Label>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <input
+                                    id="shift-evening"
+                                    type="radio"
+                                    name="shift"
+                                    value="evening"
+                                    className="h-4 w-4"
+                                />
+                                <Label htmlFor="shift-evening" className="font-normal">
+                                    Evening
+                                </Label>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <input
+                                    id="shift-both"
+                                    type="radio"
+                                    name="shift"
+                                    value="both"
+                                    className="h-4 w-4"
+                                />
+                                <Label htmlFor="shift-both" className="font-normal">
+                                    Both
+                                </Label>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Joining Date */}
+                    <div className="grid gap-2">
+                        <Label htmlFor="joining_date">Joining Date</Label>
+                        <Input
+                            id="joining_date"
+                            name="joining_date"
+                            type="date"
+                        />
+                    </div>
+
+                    {/* Visibility */}
+                    <div className="flex items-center justify-between rounded-md border px-3 py-2">
+                        <div className="flex flex-col">
+                            <span className="text-sm font-medium">Visibility</span>
+                            <span className="text-xs text-muted-foreground">
+                                Hide this student from the list
+                            </span>
+                        </div>
+                        <input
+                            id="is_hidden"
+                            name="is_hidden"
+                            type="checkbox"
+                            className="h-4 w-4 rounded border"
+                        />
+                    </div>
+
+                    {/* Footer: full-width buttons on mobile, right-aligned on larger screens */}
+                    <DialogFooter
+                        className="mt-2 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                        <DialogClose asChild>
+                            <Button
+                                variant="outline"
+                                type="button"
+                                className="w-full sm:w-auto">
+                                Cancel
+                            </Button>
+                        </DialogClose>
+                        <Button type="submit" className="w-full sm:w-auto">
+                            Save changes
+                        </Button>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </Dialog>
+    )
+}

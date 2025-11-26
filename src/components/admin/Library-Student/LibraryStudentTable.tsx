@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { LibraryStudentAlert, LibraryStudentDialog } from "@/components";
 
 type Student = {
   id: number;
@@ -32,11 +33,10 @@ const initialD: Student[] = [
 type SeatBlockProps = {
   seatLabel: string;
   students: Student[];
-  onEdit: (id: number) => void;
   onDelete: (id: number) => void;
 };
 
-function SeatBlock({ seatLabel, students, onEdit, onDelete }: SeatBlockProps) {
+function SeatBlock({ seatLabel, students, onDelete }: SeatBlockProps) {
   return (
     <section className="mb-6 w-full rounded-2xl border border-gray-100 bg-white shadow-sm">
       {/* Block header */}
@@ -69,18 +69,8 @@ function SeatBlock({ seatLabel, students, onEdit, onDelete }: SeatBlockProps) {
             </div>
 
             <div className="flex items-center justify-end gap-2">
-              <button
-                onClick={() => onEdit(s.id)}
-                className="rounded-full border border-[#e0ddff] px-3 py-1 text-xs font-medium text-[#5b3fff] transition hover:bg-[#5b3fff] hover:text-white"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => onDelete(s.id)}
-                className="rounded-full border border-red-100 px-3 py-1 text-xs font-medium text-red-500 transition hover:bg-red-500 hover:text-white"
-              >
-                Delete
-              </button>
+              <LibraryStudentDialog triggerClassName="rounded-full border border-[#e0ddff] px-3 py-1 text-xs font-medium transition hover:bg-[#5b3fff] hover:text-white" label="edit" />
+              <LibraryStudentAlert triggerClassName="rounded-full border border-red-100 text-xs font-medium text-red-500 shadow-sm transition hover:bg-red-500 hover:text-white" />
             </div>
           </div>
         ))}
@@ -111,9 +101,8 @@ function SeatBlock({ seatLabel, students, onEdit, onDelete }: SeatBlockProps) {
               {students.map((s, idx) => (
                 <tr
                   key={s.id}
-                  className={`text-gray-700 transition hover:bg-[#f5f5ff] ${
-                    idx % 2 === 0 ? "bg-white" : "bg-[#fafbff]"
-                  }`}
+                  className={`text-gray-700 transition hover:bg-[#f5f5ff] ${idx % 2 === 0 ? "bg-white" : "bg-[#fafbff]"
+                    }`}
                 >
                   <td className="px-5 py-3 font-medium">{s.name}</td>
                   <td className="px-5 py-3">{s.fatherName}</td>
@@ -123,18 +112,8 @@ function SeatBlock({ seatLabel, students, onEdit, onDelete }: SeatBlockProps) {
                   </td>
                   <td className="px-5 py-3">
                     <div className="flex items-center justify-end gap-2">
-                      <button
-                        onClick={() => onEdit(s.id)}
-                        className="rounded-full border border-[#e0ddff] px-3 py-1 text-xs font-medium text-[#5b3fff] shadow-sm transition hover:bg-[#5b3fff] hover:text-white"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => onDelete(s.id)}
-                        className="rounded-full border border-red-100 px-3 py-1 text-xs font-medium text-red-500 shadow-sm transition hover:bg-red-500 hover:text-white"
-                      >
-                        Delete
-                      </button>
+                      <LibraryStudentDialog triggerClassName="rounded-full border border-[#e0ddff] px-3 py-1 text-xs font-medium text-[#5b3fff] transition hover:bg-[#5b3fff] hover:text-white" label="edit" />
+                      <LibraryStudentAlert triggerClassName="rounded-full border border-red-100 px-2 py-1 text-xs font-medium text-red-500 shadow-sm transition hover:bg-red-500 hover:text-white" />
                     </div>
                   </td>
                 </tr>
@@ -168,14 +147,26 @@ export default function LibraryStudentPage() {
     id: number,
     setFn: React.Dispatch<React.SetStateAction<Student[]>>
   ) => {
-    if (!confirm("Are you sure you want to delete this student?")) return;
-    setFn((prev) => prev.filter((s) => s.id !== id));
+
   };
 
-  const handleEdit = (id: number) => {
-    console.log("Edit student id:", id);
-    // later: router.push(`/admin/library-student/${id}/edit`)
-  };
+
+  const submitHandler = (formData: FormData) => {
+    
+    const name = formData.get("name") as string;
+    const seat = formData.get("seat") as string;
+    const shift = formData.get("shift") as string;
+    const is_hidden = formData.get("is_hidden") as string;
+    const father_name = formData.get("father_name") as string;
+    const joining_date = formData.get("joining_date") as string;
+
+    console.log(name, father_name, seat, shift, joining_date, is_hidden);
+
+
+  }
+
+
+
 
   return (
     <main className="bg-[#f5f7fb] px-3 py-5 sm:px-5 lg:px-6">
@@ -191,37 +182,37 @@ export default function LibraryStudentPage() {
             </p>
           </div>
 
-          <Link
-            href="/admin/library-student/new"
-            className="w-full md:w-auto inline-flex items-center justify-center rounded-full bg-[#5b3fff] px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#4a32d1]"
-          >
-            + Add Student
-          </Link>
+          <LibraryStudentDialog
+            triggerClassName="w-full md:w-auto inline-flex items-center justify-center rounded-full bg-[#5b3fff] px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#4a32d1] hover:text-white"
+            label="Add Student"
+            submitHandler={submitHandler}
+          />
+
         </header>
 
         {/* Stacked seat blocks */}
         <SeatBlock
           seatLabel="A"
           students={studentsA}
-          onEdit={handleEdit}
+
           onDelete={(id) => handleDelete(id, setStudentsA)}
         />
         <SeatBlock
           seatLabel="B"
           students={studentsB}
-          onEdit={handleEdit}
+
           onDelete={(id) => handleDelete(id, setStudentsB)}
         />
         <SeatBlock
           seatLabel="C"
           students={studentsC}
-          onEdit={handleEdit}
+
           onDelete={(id) => handleDelete(id, setStudentsC)}
         />
         <SeatBlock
           seatLabel="D"
           students={studentsD}
-          onEdit={handleEdit}
+
           onDelete={(id) => handleDelete(id, setStudentsD)}
         />
       </div>

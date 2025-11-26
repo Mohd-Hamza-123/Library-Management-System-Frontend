@@ -26,21 +26,23 @@ export default async function Sidebar() {
         <aside className='fixed bottom-0 h-fit w-full flex flex-row md:static md:w-[13dvh] md:h-full md:flex md:flex-col justify-evenly items-center py-3 bg-white border-t-2 border-indigo-600 md:border-none'>
 
             <div className='flex flex-row md:flex-col items-center md:gap-4 gap-8'>
-                <NavItem title='mail'>
-                    <Icons.mail className="text-gray-800 hover:text-red-800 hover:scale-110 transition-colors duration-500 show-title-trigger show-title-trigger text-xl" />
-                </NavItem>
 
+                <Link href={"/"}>
+                    <NavItem title='Home'>
+                        <Icons.home className="text-gray-800 hover:text-indigo-600 hover:scale-110 transition-colors duration-500 show-title-trigger show-title-trigger text-xl" />
+                    </NavItem>
+                </Link>
 
                 <Link href={"/admin"}>
                     <NavItem title='admin'>
                         <Icons.admin
-                            className="text-gray-800 hover:text-red-800 hover:scale-110 transition-colors duration-500 show-title-trigger show-title-trigger text-xl" />
+                            className="text-gray-800 hover:text-indigo-600 hover:scale-110 transition-colors duration-500 show-title-trigger show-title-trigger text-xl" />
                     </NavItem>
                 </Link>
 
                 <NavItem title='settings'>
                     <Icons.gear
-                        className='text-gray-800 cursor-pointer hover:text-red-800  transition-colors duration-500 show-title-trigger hover:rotate-10 hover:scale-110 text-xl' />
+                        className='text-gray-800 cursor-pointer hover:text-indigo-600  transition-colors duration-500 show-title-trigger hover:rotate-10 hover:scale-110 text-xl' />
                 </NavItem>
             </div>
 

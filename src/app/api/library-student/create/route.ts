@@ -6,13 +6,14 @@ export async function POST(request: NextRequest) {
     try {
         await connectDB()
         const body = await request.json();
-        const { name, father_name, seat, shift, } = body;
+        const { name, father_name, seat, shift, joining_date } = body;
 
         const student = await LibraryStudent.create({
             name,
             father_name,
             seat,
             shift,
+            joining_date
         })
 
         if (!student) return NextResponse.json(
@@ -26,7 +27,10 @@ export async function POST(request: NextRequest) {
         );
     } catch (error) {
         return NextResponse.json(
-            { error: error instanceof Error ? error.message : "something went wrong", success: false },
+            {
+                error: error instanceof Error ? error.message : "something went wrong", success: false,
+                message : "Something went wrong"
+            },
             { status: 500 }
         );
     }

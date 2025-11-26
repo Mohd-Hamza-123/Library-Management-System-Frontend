@@ -21,8 +21,16 @@ const libraryStudentSchema = new Schema({
         required: [true, "Assign a shift"],
         trim: true,
     },
+    joining_date: {
+        type: Date,
+    },
+    is_hidden: {
+        type: Boolean,
+        default: false
+    }
 }, {
-    versionKey: false
+    versionKey: false,
+    timestamps: true,
 })
 
 libraryStudentSchema.index({ seat: 1, shift: 1 }, { unique: true })

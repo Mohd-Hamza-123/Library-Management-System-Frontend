@@ -37,12 +37,12 @@ export default function CurrentSession() {
             {user?.success ? <NavItem
                 onClick={signout}
                 title='logout'>
-                <Icons.logout className='text-gray-800 cursor-pointer hover:text-red-800  transition-colors duration-500 show-title-trigger hover:scale-110 text-xl' />
+                <Icons.logout className='text-gray-800 cursor-pointer hover:text-indigo-600  transition-colors duration-500 show-title-trigger hover:scale-110 text-xl' />
             </NavItem > :
                 <Link href="/login">
                     <NavItem title='login'>
                         <Icons.login
-                            className='text-gray-800 cursor-pointer hover:text-red-800  transition-colors duration-500 show-title-trigger text-xl hover:scale-110'
+                            className='text-gray-800 cursor-pointer hover:text-indigo-600  transition-colors duration-500 show-title-trigger text-xl hover:scale-110'
                         />
                     </NavItem>
                 </Link>
