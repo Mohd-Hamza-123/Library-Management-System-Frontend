@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { LibraryStudentAlert, LibraryStudentDialog } from "@/components";
+import { libraryStudentSchema } from "@/lib/validation/libraryStudentSchema";
 
 type Student = {
   id: number;
@@ -10,6 +11,7 @@ type Student = {
   fatherName: string;
   shift: string;
   seat: string;
+  joining_date?: string;
 };
 
 // Dummy data – replace later with MongoDB data
@@ -94,6 +96,7 @@ function SeatBlock({ seatLabel, students, onDelete }: SeatBlockProps) {
                 <th className="px-5 py-3 text-left whitespace-nowrap w-[100px]">
                   Seat
                 </th>
+                <th>Joining Date</th>
                 <th className="px-5 py-3 text-right">Actions</th>
               </tr>
             </thead>
@@ -110,6 +113,7 @@ function SeatBlock({ seatLabel, students, onDelete }: SeatBlockProps) {
                   <td className="px-5 py-3 font-semibold whitespace-nowrap">
                     {s.seat}
                   </td>
+                  <td>{s?.joining_date}</td>
                   <td className="px-5 py-3">
                     <div className="flex items-center justify-end gap-2">
                       <LibraryStudentDialog triggerClassName="rounded-full border border-[#e0ddff] px-3 py-1 text-xs font-medium text-[#5b3fff] transition hover:bg-[#5b3fff] hover:text-white" label="edit" />
@@ -152,16 +156,26 @@ export default function LibraryStudentPage() {
 
 
   const submitHandler = (formData: FormData) => {
-    
-    const name = formData.get("name") as string;
-    const seat = formData.get("seat") as string;
-    const shift = formData.get("shift") as string;
-    const is_hidden = formData.get("is_hidden") as string;
-    const father_name = formData.get("father_name") as string;
-    const joining_date = formData.get("joining_date") as string;
 
-    console.log(name, father_name, seat, shift, joining_date, is_hidden);
+    const raw = {
+      name: formData.get("name") as string,
+      father_name: formData.get("father_name") || undefined,
+      seat: formData.get("seat") as string,
+      shift: formData.get("shift") as string,
+      joining_date: formData.get("joining_date") || undefined,
+      is_hidden: formData.get("is_hidden") === "on",
+    };
+    console.log(raw)
+    const result = libraryStudentSchema.safeParse(raw)
 
+    if (!result.success) {
+      const { formErrors, fieldErrors } = result.error.flatten()
+      console.log(formErrors)
+      console.log(fieldErrors)
+
+
+
+    }
 
   }
 
