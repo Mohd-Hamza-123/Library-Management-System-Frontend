@@ -64,7 +64,7 @@ export default function Dashboard() {
               <Icons.lightMode className="text-black" />
             </button>
 
-            <div className="bg-white rounded-full w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-gray-700 font-medium">N</div>
+
           </div>
         </div>
       </section>

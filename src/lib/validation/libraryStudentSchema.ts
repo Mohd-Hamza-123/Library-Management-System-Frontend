@@ -19,7 +19,9 @@ export const shift = z
     .enum(["morning", "evening", "both"])
 
 export const joining_date = z
-    .date()
+    .string()
+    .trim()
+    .transform((str) => new Date(str))
 
 export const is_hidden = z
     .boolean()
@@ -32,3 +34,5 @@ export const libraryStudentSchema = z.object({
     joining_date,
     is_hidden
 })
+
+export type LibraryStudentSchema = z.infer<typeof libraryStudentSchema>

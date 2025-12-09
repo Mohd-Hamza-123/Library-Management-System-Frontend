@@ -3,6 +3,6 @@ export type LibraryStudent = {
     father_name: string;
     seat: string;
     shift: string;
-    joining_date: string;
+    joining_date: Date;
     is_hidden: boolean;
 }

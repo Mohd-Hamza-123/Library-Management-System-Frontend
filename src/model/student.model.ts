@@ -38,6 +38,6 @@ libraryStudentSchema.index({ seat: 1, shift: 1 }, { unique: true })
 export type LibraryStudent = InferSchemaType<typeof libraryStudentSchema>
 export type LibraryStudentDocument = HydratedDocument<LibraryStudent>
 
-const LibraryStudent = (models.LibraryStudent as Model<LibraryStudent> | undefined) || model<LibraryStudent>("LibraryStudent", libraryStudentSchema)
+const LibraryStudent = models.LibraryStudent as Model<LibraryStudent> || model<LibraryStudent>("LibraryStudent", libraryStudentSchema)
 
 export default LibraryStudent

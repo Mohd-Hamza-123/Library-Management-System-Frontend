@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { LibraryStudentAlert, LibraryStudentDialog } from "@/components";
 import { libraryStudentSchema } from "@/lib/validation/libraryStudentSchema";
+import { toast } from "sonner";
+import useLibraryStudent from "@/hooks/useLibraryStudent";
 
 type Student = {
   id: number;
@@ -35,7 +37,7 @@ const initialD: Student[] = [
 type SeatBlockProps = {
   seatLabel: string;
   students: Student[];
-  onDelete: (id: number) => void;
+  onDelete?: (id: number) => void;
 };
 
 function SeatBlock({ seatLabel, students, onDelete }: SeatBlockProps) {
@@ -147,36 +149,43 @@ export default function LibraryStudentPage() {
   const [studentsC, setStudentsC] = useState<Student[]>(initialC);
   const [studentsD, setStudentsD] = useState<Student[]>(initialD);
 
-  const handleDelete = (
-    id: number,
-    setFn: React.Dispatch<React.SetStateAction<Student[]>>
-  ) => {
-
-  };
-
+  const { addLibraryStudent } = useLibraryStudent()
 
   const submitHandler = (formData: FormData) => {
 
     const raw = {
       name: formData.get("name") as string,
-      father_name: formData.get("father_name") || undefined,
+      father_name: formData.get("father_name") as string,
       seat: formData.get("seat") as string,
       shift: formData.get("shift") as string,
-      joining_date: formData.get("joining_date") || undefined,
+      joining_date: formData.get("joining_date") as string,
       is_hidden: formData.get("is_hidden") === "on",
     };
-    console.log(raw)
+
     const result = libraryStudentSchema.safeParse(raw)
 
     if (!result.success) {
       const { formErrors, fieldErrors } = result.error.flatten()
       console.log(formErrors)
-      console.log(fieldErrors)
+      // console.log(fieldErrors)
 
-
-
+      for (const [key, value] of Object.entries(fieldErrors)) {
+        let errorMessage = value[0];
+        toast(errorMessage, {
+          duration: 5000,
+          action: {
+            label: "Undo",
+            onClick: () => console.log("Undo"),
+          },
+        })
+        return
+      }
+      return
     }
 
+    const data = result.data
+    // console.log("Validated Data: ", data)
+    addLibraryStudent(data)
   }
 
 
@@ -209,25 +218,25 @@ export default function LibraryStudentPage() {
           seatLabel="A"
           students={studentsA}
 
-          onDelete={(id) => handleDelete(id, setStudentsA)}
+          // onDelete={(id) => handleDelete(id, setStudentsA)}
         />
         <SeatBlock
           seatLabel="B"
           students={studentsB}
 
-          onDelete={(id) => handleDelete(id, setStudentsB)}
+          // onDelete={(id) => handleDelete(id, setStudentsB)}
         />
         <SeatBlock
           seatLabel="C"
           students={studentsC}
 
-          onDelete={(id) => handleDelete(id, setStudentsC)}
+          // onDelete={(id) => handleDelete(id, setStudentsC)}
         />
         <SeatBlock
           seatLabel="D"
           students={studentsD}
 
-          onDelete={(id) => handleDelete(id, setStudentsD)}
+          // onDelete={(id) => handleDelete(id, setStudentsD)}
         />
       </div>
     </main>

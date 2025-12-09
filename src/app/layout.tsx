@@ -2,17 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import Providers from "@/Providers/Providers";
 import { Toaster } from "@/components/ui/sonner"
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const poppins = Poppins({
   subsets: ['latin'],

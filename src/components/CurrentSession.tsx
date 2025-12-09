@@ -4,11 +4,11 @@ import Link from 'next/link'
 import { Icons } from './Icons'
 import { NavItem } from './Sidebar'
 import { apiResponse } from '@/types/api'
+import useSignout from '@/hooks/useSignout'
 import { useAppDispatch } from '@/lib/hooks'
 import { login } from '@/lib/features/authSlice'
 import React, { useEffect, useState } from 'react'
 import { getSession } from '@/utils/sessionClient'
-import useSignout from '@/hooks/useSignout'
 
 export default function CurrentSession() {
 
