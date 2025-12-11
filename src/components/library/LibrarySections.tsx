@@ -27,14 +27,7 @@ export default function LibrarySections() {
                     Seat
                 </button>
 
-                <button
-                    onClick={() => setView("update")}
-                    className={`px-4 py-1 rounded-lg text-sm font-medium transition
-            ${view === "update" ? "bg-white text-indigo-700 shadow" : ""}
-          `}
-                >
-                    Update
-                </button>
+    
             </div>
 
             {/* Content Placeholder */}

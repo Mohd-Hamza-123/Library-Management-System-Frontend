@@ -9,7 +9,7 @@ import { RiLoginCircleLine } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa6";
 import { FaPowerOff } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
-export const Icons = {
+const Icons = {
     toggleOff: (props: IconProps) => <IoToggleOutline {...props} />,
     gear: (props: IconProps) => <GoGear {...props} />,
     mail: (props: IconProps) => <CiMail {...props} />,
@@ -20,3 +20,5 @@ export const Icons = {
     home : (props: IconProps) => <FaHome {...props} />,
     lightMode : (props: IconProps) => <MdOutlineLightMode {...props} />
 }
+
+export default Icons;

@@ -1,5 +1,5 @@
-import { createSlice, configureStore } from '@reduxjs/toolkit'
-import { UserData } from '@/types/userData'
+import { createSlice} from '@reduxjs/toolkit'
+import type { UserData } from '@/types/userData'
 
 const initialState = {
     userStatus: false,

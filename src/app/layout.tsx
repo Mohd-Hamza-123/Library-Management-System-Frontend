@@ -1,9 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { siteConfig } from "@/conf/site";
+import { Poppins } from "next/font/google";
 import Providers from "@/Providers/Providers";
 import { Toaster } from "@/components/ui/sonner"
-import { Poppins } from "next/font/google";
-
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -11,8 +11,8 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: "MS-Lib",
-  description: "This web application is a Library Management System",
+  title: siteConfig.siteName,
+  description: siteConfig.description,
 };
 
 export default function RootLayout({
@@ -22,8 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body
-        className={`${poppins.className} antialiased`}>
+      <body className={`${poppins.className} antialiased`}>
         <Toaster />
         <Providers> {children} </Providers>
       </body>

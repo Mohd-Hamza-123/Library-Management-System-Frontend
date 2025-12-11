@@ -1,36 +1,39 @@
 "use server"
 
-import { redirect } from 'next/navigation';
-import { authClient } from "@/lib/auth-client";
+import { auth } from '@/lib/auth';
 
 export const register = async (formData: FormData) => {
-    
+
+  try {
+
     const name = formData.get('name') as string
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
-    console.log(name)
-    console.log(email)
-    console.log(password)
-
-    const { data, error } = await authClient.signUp.email({
-        email,
-        password, // user password -> min 8 characters by default
+    const data = await auth.api.signUpEmail({
+      body: {
         name,
-    }, {
-        onRequest: (ctx) => {
-            console.log(ctx)
-        },
-        onSuccess: (ctx) => {
-            console.log(ctx)
-            redirect('/')
-        },
-        onError: (ctx) => {
-            console.log(ctx.error.message)
-        },
+        email,
+        password,
+        role: "user"
+      }
     })
 
-    console.log(error)
     console.log(data)
+
+    return {
+      success: true,
+      message: "Signup Successfully",
+      data: data.user
+    }
+  } catch (error: unknown) {
+    console.log("error action.ts", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Signup Failed",
+    }
+  }
+
+
 
 }

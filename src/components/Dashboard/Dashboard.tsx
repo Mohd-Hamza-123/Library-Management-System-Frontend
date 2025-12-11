@@ -6,10 +6,13 @@ import { motion } from "framer-motion";
 import "@/styles/dashboard.css";
 import { getDateTime } from "@/utils/dates";
 import { FiBook, FiDollarSign, FiUsers, FiLayers } from "react-icons/fi";
-import { Icons } from "../Icons";
+import { Icons } from "..";
 import Link from "next/link";
+import { changeUserRole } from "@/lib/auth";
+import { useAppSelector } from "@/lib/hooks";
 
 export default function Dashboard() {
+  const userData = useAppSelector((state) => state.authSlice.userData)
   const cards = [
     {
       id: "library",
@@ -80,7 +83,6 @@ export default function Dashboard() {
               <p className="text-sm text-gray-500 mt-1">Open the most used sections quickly.</p>
             </div>
 
-            <button className="ml-auto md:ml-0 px-3 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition text-sm md:text-base">New Entry</button>
           </div>
 
           {/* CARDS */}

@@ -1,6 +1,6 @@
 export { default as Title } from "./Title"
 export { default as Icons } from "./Icons"
-export { default as Sidebar } from "./Sidebar"
+export { default as Sidebar } from "./Sidebar/Sidebar"
 export { default as Spinner } from "./Spinner"
 export { default as GoToHome } from "./GoToHome"
 export { default as Header } from "./Header/Header"

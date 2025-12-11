@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { Icons } from './Icons'
+import { Icons } from './'
 
 export default function GoToHome() {
   return (

@@ -8,6 +8,8 @@ const conf = {
     BETTER_AUTH_URL: String(process.env.BETTER_AUTH_URL),
     BETTER_AUTH_SECRET: String(process.env.BETTER_AUTH_SECRET),
     MONGO_DB_DATABASE_1: String(process.env.MONGO_DB_DATABASE_1),
+    GOOGLE_CLIENT_ID: String(process.env.GOOGLE_CLIENT_ID),
+    GOOGLE_CLIENT_SECRET: String(process.env.GOOGLE_CLIENT_SECRET),
 }
 
 export default conf
