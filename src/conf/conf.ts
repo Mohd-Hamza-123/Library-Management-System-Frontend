@@ -5,7 +5,7 @@ const conf = {
     SMTP_PORT: Number(process.env.SMTP_PORT),
     SMTP_USER: String(process.env.SMTP_USER),
     MONGO_DB_URI: String(process.env.MONGO_DB_URI),
-    BETTER_AUTH_URL: String(process.env.BETTER_AUTH_URL),
+    NEXT_PUBLIC_BETTER_AUTH_URL: String(process.env.NEXT_PUBLIC_BETTER_AUTH_URL),
     BETTER_AUTH_SECRET: String(process.env.BETTER_AUTH_SECRET),
     MONGO_DB_DATABASE_1: String(process.env.MONGO_DB_DATABASE_1),
     GOOGLE_CLIENT_ID: String(process.env.GOOGLE_CLIENT_ID),
