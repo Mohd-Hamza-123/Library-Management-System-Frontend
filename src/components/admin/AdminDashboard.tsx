@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 export default function AdminDashboard() {
+    
     return (
         <div className="bg-[#f5f7fb] w-full rounded-tl-2xl">
             {/* Main content */}

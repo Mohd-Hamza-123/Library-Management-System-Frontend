@@ -1,4 +1,6 @@
-import { Schema, InferSchemaType, HydratedDocument, models, Model, model } from "mongoose"
+import getLibraryConnection from "@/database/library.connection"
+import { match } from "assert"
+import { Schema, InferSchemaType, HydratedDocument, Model } from "mongoose"
 
 const libraryStudentSchema = new Schema({
     name: {
@@ -14,6 +16,7 @@ const libraryStudentSchema = new Schema({
         type: String,
         required: [true, "Assign a seat"],
         trim: true,
+        match: [/^[A-Z]\d{1,2}$/, "Seat must be like A1 or C34"],
     },
     shift: {
         type: String,
@@ -38,6 +41,8 @@ libraryStudentSchema.index({ seat: 1, shift: 1 }, { unique: true })
 export type LibraryStudent = InferSchemaType<typeof libraryStudentSchema>
 export type LibraryStudentDocument = HydratedDocument<LibraryStudent>
 
-const LibraryStudent = models.LibraryStudent as Model<LibraryStudent> || model<LibraryStudent>("LibraryStudent", libraryStudentSchema)
+const connection = getLibraryConnection()
+
+const LibraryStudent: Model<LibraryStudent> = connection.models.LibraryStudent ?? connection.model<LibraryStudent>("LibraryStudent", libraryStudentSchema)
 
 export default LibraryStudent

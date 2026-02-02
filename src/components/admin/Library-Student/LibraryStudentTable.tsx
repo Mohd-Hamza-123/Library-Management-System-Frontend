@@ -1,194 +1,104 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { LibraryStudentAlert, LibraryStudentDialog } from "@/components";
-import { libraryStudentSchema } from "@/lib/validation/libraryStudentSchema";
 import { toast } from "sonner";
+import SeatBlock from "./SeatBlock";
+import { seatBlocks as block } from "@/constant";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import useLibraryStudent from "@/hooks/useLibraryStudent";
+import React, { useEffect, useRef, useState } from "react";
+import { LibraryStudentDialog, Spinner } from "@/components";
+import { libraryStudentSchema } from "@/lib/validation/libraryStudentSchema";
+import { submitHandler } from "./action";
 
 type Student = {
-  id: number;
+  _id: string;
   name: string;
-  fatherName: string;
+  father_name: string;
   shift: string;
-  seat: string;
+  seat?: string;
   joining_date?: string;
 };
 
-// Dummy data – replace later with MongoDB data
-const initialA: Student[] = [
-  { id: 1, name: "Hamza Khan", fatherName: "Mohd Khan", shift: "Morning", seat: "A-12" },
-  { id: 2, name: "Ayesha Fatima", fatherName: "Imran Ali", shift: "Evening", seat: "A-07" },
-];
-
-const initialB: Student[] = [
-  { id: 3, name: "Rahul Sharma", fatherName: "Vikram Sharma", shift: "Morning", seat: "B-03" },
-];
-
-const initialC: Student[] = [
-  { id: 4, name: "Sameer Ali", fatherName: "Imran Ali", shift: "Evening", seat: "C-05" },
-];
-
-const initialD: Student[] = [
-  { id: 5, name: "Noor Fatima", fatherName: "Javed Ali", shift: "Morning", seat: "D-01" },
-];
-
-type SeatBlockProps = {
-  seatLabel: string;
+type Block = {
+  block: string;
   students: Student[];
-  onDelete?: (id: number) => void;
 };
 
-function SeatBlock({ seatLabel, students, onDelete }: SeatBlockProps) {
-  return (
-    <section className="mb-6 w-full rounded-2xl border border-gray-100 bg-white shadow-sm">
-      {/* Block header */}
-      <div className="flex items-center justify-between px-4 py-3 sm:px-5">
-        <h3 className="text-sm font-semibold text-gray-800">
-          Seat Block {seatLabel}
-        </h3>
-        <span className="text-xs text-gray-400">Total: {students.length}</span>
-      </div>
-
-      {/* MOBILE: cards */}
-      <div className="border-t border-gray-100 px-4 py-3 space-y-3 md:hidden">
-        {students.map((s) => (
-          <div
-            key={s.id}
-            className="rounded-xl bg-[#f7f8ff] p-3 flex flex-col gap-2 shadow-[0_8px_20px_rgba(0,0,0,0.03)]"
-          >
-            <div>
-              <p className="text-sm font-semibold text-gray-900">{s.name}</p>
-              <p className="text-xs text-gray-500">Father: {s.fatherName}</p>
-            </div>
-
-            <div className="flex items-center justify-between text-xs text-gray-600">
-              <span>
-                Shift: <span className="font-medium text-gray-900">{s.shift}</span>
-              </span>
-              <span>
-                Seat: <span className="font-semibold text-gray-900">{s.seat}</span>
-              </span>
-            </div>
-
-            <div className="flex items-center justify-end gap-2">
-              <LibraryStudentDialog triggerClassName="rounded-full border border-[#e0ddff] px-3 py-1 text-xs font-medium transition hover:bg-[#5b3fff] hover:text-white" label="edit" />
-              <LibraryStudentAlert triggerClassName="rounded-full border border-red-100 text-xs font-medium text-red-500 shadow-sm transition hover:bg-red-500 hover:text-white" />
-            </div>
-          </div>
-        ))}
-
-        {students.length === 0 && (
-          <p className="py-3 text-center text-xs text-gray-400">
-            No students in this block.
-          </p>
-        )}
-      </div>
-
-      {/* DESKTOP/TABLET: full-width table */}
-      <div className="hidden border-t border-gray-100 md:block">
-        <div className="overflow-x-auto">
-          <table className="w-full table-fixed border-collapse bg-white text-sm">
-            <thead className="bg-[#f7f8fc] text-xs uppercase tracking-wide text-gray-500">
-              <tr>
-                <th className="px-5 py-3 text-left">Name</th>
-                <th className="px-5 py-3 text-left">Father Name</th>
-                <th className="px-5 py-3 text-left">Shift</th>
-                <th className="px-5 py-3 text-left whitespace-nowrap w-[100px]">
-                  Seat
-                </th>
-                <th>Joining Date</th>
-                <th className="px-5 py-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {students.map((s, idx) => (
-                <tr
-                  key={s.id}
-                  className={`text-gray-700 transition hover:bg-[#f5f5ff] ${idx % 2 === 0 ? "bg-white" : "bg-[#fafbff]"
-                    }`}
-                >
-                  <td className="px-5 py-3 font-medium">{s.name}</td>
-                  <td className="px-5 py-3">{s.fatherName}</td>
-                  <td className="px-5 py-3">{s.shift}</td>
-                  <td className="px-5 py-3 font-semibold whitespace-nowrap">
-                    {s.seat}
-                  </td>
-                  <td>{s?.joining_date}</td>
-                  <td className="px-5 py-3">
-                    <div className="flex items-center justify-end gap-2">
-                      <LibraryStudentDialog triggerClassName="rounded-full border border-[#e0ddff] px-3 py-1 text-xs font-medium text-[#5b3fff] transition hover:bg-[#5b3fff] hover:text-white" label="edit" />
-                      <LibraryStudentAlert triggerClassName="rounded-full border border-red-100 px-2 py-1 text-xs font-medium text-red-500 shadow-sm transition hover:bg-red-500 hover:text-white" />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-
-              {students.length === 0 && (
-                <tr>
-                  <td
-                    colSpan={5}
-                    className="px-5 py-6 text-center text-sm text-gray-400"
-                  >
-                    No students in this block.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-  );
-}
+type SeatBlockProps = {
+  blocks: Block[] | [];
+};
 
 export default function LibraryStudentPage() {
-  const [studentsA, setStudentsA] = useState<Student[]>(initialA);
-  const [studentsB, setStudentsB] = useState<Student[]>(initialB);
-  const [studentsC, setStudentsC] = useState<Student[]>(initialC);
-  const [studentsD, setStudentsD] = useState<Student[]>(initialD);
 
-  const { addLibraryStudent } = useLibraryStudent()
+  const { addLibraryStudent, getLibraryStudent } = useLibraryStudent()
+  const spinnerRef = useRef<HTMLDivElement>(null)
 
-  const submitHandler = (formData: FormData) => {
+  const {
+    data,
+    error,
+    status,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    initialPageParam: 0,
+    queryKey: ['library-student'],
+    queryFn: ({ pageParam }) => {
+      // console.log(pageParam)
+      return getLibraryStudent(block[pageParam], pageParam)
+    },
+    getNextPageParam: (lastPage, pages) => {
+      // console.log(lastPage?.nextCursor)
+      return lastPage?.nextCursor < block.length ? lastPage?.nextCursor : undefined
+    },
+  })
 
-    const raw = {
-      name: formData.get("name") as string,
-      father_name: formData.get("father_name") as string,
-      seat: formData.get("seat") as string,
-      shift: formData.get("shift") as string,
-      joining_date: formData.get("joining_date") as string,
-      is_hidden: formData.get("is_hidden") === "on",
-    };
+  // console.log(data)
+  const students = data?.pages.flatMap((page) => page?.data) || []
+  // console.log(students)
 
-    const result = libraryStudentSchema.safeParse(raw)
+  const createStudent = async (formData: FormData) => {
 
-    if (!result.success) {
-      const { formErrors, fieldErrors } = result.error.flatten()
-      console.log(formErrors)
-      // console.log(fieldErrors)
+    const result = submitHandler(formData)
+    if (result.success && result.data) {
 
-      for (const [key, value] of Object.entries(fieldErrors)) {
-        let errorMessage = value[0];
-        toast(errorMessage, {
-          duration: 5000,
-          action: {
-            label: "Undo",
-            onClick: () => console.log("Undo"),
-          },
-        })
-        return
-      }
-      return
+      await addLibraryStudent(result?.data)
+
+    } else {
+      toast(result?.message, {
+        duration: 5000,
+        style: {
+          color: "red",
+        },
+        action: {
+          label: "Undo",
+          onClick: () => console.log("Undo"),
+        },
+      })
     }
-
-    const data = result.data
-    // console.log("Validated Data: ", data)
-    addLibraryStudent(data)
   }
 
+  useEffect(() => {
+    const ref = spinnerRef.current
+    if (!ref) return
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && hasNextPage) {
+        // console.log("intersect")
+        fetchNextPage()
+      }
+    },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1,
+      }
+    )
 
+    observer.observe(ref);
+    return () => observer.unobserve(ref);
+
+  }, [hasNextPage, fetchNextPage, data])
 
 
   return (
@@ -208,36 +118,17 @@ export default function LibraryStudentPage() {
           <LibraryStudentDialog
             triggerClassName="w-full md:w-auto inline-flex items-center justify-center rounded-full bg-[#5b3fff] px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#4a32d1] hover:text-white"
             label="Add Student"
-            submitHandler={submitHandler}
+            submitHandler={createStudent}
           />
 
         </header>
 
-        {/* Stacked seat blocks */}
-        <SeatBlock
-          seatLabel="A"
-          students={studentsA}
+        {/* seat blocks */}
+        <SeatBlock blocks={students} />
+        {hasNextPage && <div className="flex justify-center my-2" ref={spinnerRef}>
+          <Spinner />
+        </div>}
 
-          // onDelete={(id) => handleDelete(id, setStudentsA)}
-        />
-        <SeatBlock
-          seatLabel="B"
-          students={studentsB}
-
-          // onDelete={(id) => handleDelete(id, setStudentsB)}
-        />
-        <SeatBlock
-          seatLabel="C"
-          students={studentsC}
-
-          // onDelete={(id) => handleDelete(id, setStudentsC)}
-        />
-        <SeatBlock
-          seatLabel="D"
-          students={studentsD}
-
-          // onDelete={(id) => handleDelete(id, setStudentsD)}
-        />
       </div>
     </main>
   );

@@ -17,7 +17,7 @@ export default function LoginForm() {
 
     const submit = async (data: FormData) => {
         const result = await loginUser(data)
-        console.log(result)
+        // console.log(result)
         if (result.success) {
             toast(result.message, {
                 duration: 2500,

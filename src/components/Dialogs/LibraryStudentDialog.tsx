@@ -10,9 +10,11 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { LoadingButton } from ".."
 
 interface LibraryStudentDialogProps {
     triggerClassName?: string;
@@ -64,7 +66,7 @@ export default function LibraryStudentDialog({ triggerClassName = "", label, sub
                         <Input
                             id="seat"
                             name="seat"
-                            placeholder="e.g. A-12"
+                            placeholder="e.g. A12"
                             required
                         />
                     </div>
@@ -150,9 +152,7 @@ export default function LibraryStudentDialog({ triggerClassName = "", label, sub
                                 Cancel
                             </Button>
                         </DialogClose>
-                        <Button type="submit" className="w-full sm:w-auto">
-                            Save changes
-                        </Button>
+                       <LoadingButton content="save"/>
                     </DialogFooter>
                 </form>
             </DialogContent>

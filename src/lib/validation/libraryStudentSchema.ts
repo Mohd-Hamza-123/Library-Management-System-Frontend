@@ -13,7 +13,8 @@ export const father_name = z
 export const seat = z
     .string()
     .trim()
-    .max(20, "Seat is too long. Please enter a shorter name.")
+    .max(3, "Seat name not allowed. Please enter a shorter name")
+    .regex(/^[A-Z]\d{1,2}$/, "Seat must be like A1 or C34")
 
 export const shift = z
     .enum(["morning", "evening", "both"])

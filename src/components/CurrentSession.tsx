@@ -30,7 +30,7 @@ export default function CurrentSession() {
     const { signout, verifyEmail } = useAuthentication()
     const dispatch = useAppDispatch()
     const userData = useAppSelector((state) => state.authSlice.userData);
-    console.log(userData?.email)
+    // console.log(userData?.email)
     const [status, setStatus] = useState<"loading" | "authenticated" | "unauthenticated">("loading")
 
     useEffect(() => {

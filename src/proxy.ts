@@ -3,19 +3,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUserServer } from './lib/auth';
 
 export async function proxy(request: NextRequest) {
-    console.log("user going to proxy")
+    const { pathname } = request.nextUrl
+
     const token = request.cookies.get('better-auth.session_token')?.value
     // console.log(token)
-    if(!token) {
-        return NextResponse.redirect(new URL("/login",request.url))
+    if (!token) {
+        return NextResponse.redirect(new URL("/login", request.url))
     }
 
     const session = await getCurrentUserServer()
-    console.log(session?.user)
+    // console.log(session?.user)
     const role = session?.user?.role
-    const emailVerified = session?.user.emailVerified 
-    if(role !== 'admin' || !emailVerified) {
-        return NextResponse.redirect(new URL("/login",request.url))
+    const emailVerified = session?.user.emailVerified
+    if (role !== 'admin' || !emailVerified) {
+        return NextResponse.redirect(new URL("/login", request.url))
     }
 
 }

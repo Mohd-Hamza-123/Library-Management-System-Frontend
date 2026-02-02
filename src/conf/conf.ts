@@ -8,6 +8,7 @@ const conf = {
     NEXT_PUBLIC_BETTER_AUTH_URL: String(process.env.NEXT_PUBLIC_BETTER_AUTH_URL),
     BETTER_AUTH_SECRET: String(process.env.BETTER_AUTH_SECRET),
     MONGO_DB_DATABASE_1: String(process.env.MONGO_DB_DATABASE_1),
+    MONGO_DB_LIBRARY_URI : String(process.env.MONGO_DB_LIBRARY_URI),
     GOOGLE_CLIENT_ID: String(process.env.GOOGLE_CLIENT_ID),
     GOOGLE_CLIENT_SECRET: String(process.env.GOOGLE_CLIENT_SECRET),
 }

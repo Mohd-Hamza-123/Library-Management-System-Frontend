@@ -1,21 +1,21 @@
 "use client"
 
 import Link from 'next/link'
+import { toast } from 'sonner'
 import { register } from './actions'
 import { FcGoogle } from 'react-icons/fc'
-import { FiMail, FiLock } from 'react-icons/fi'
-import { Label } from '@/components/ui/label'
-import { GoToHome, LoadingButton, Icons } from '@/components/index'
-import useAuthentication from '@/hooks/useAuthentication'
-import { toast } from 'sonner'
 import { redirect } from 'next/navigation'
+import { Label } from '@/components/ui/label'
+import { FiMail, FiLock } from 'react-icons/fi'
+import useAuthentication from '@/hooks/useAuthentication'
+import { GoToHome, LoadingButton, Icons } from '@/components/index'
 
 export default function SignUpPage() {
 
     const { signInWithGoogle } = useAuthentication()
     const submit = async (formData: FormData) => {
         const result = await register(formData)
-        console.log(result)
+        // console.log(result)
         if (result.success) {
             toast(result.message, {
                 duration: 2500,

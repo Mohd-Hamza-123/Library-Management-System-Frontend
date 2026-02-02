@@ -2,7 +2,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { GoToHome } from '@/components'
 
-
 export default function Login({ children }: { children: React.ReactNode }) {
 
     return (
