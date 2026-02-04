@@ -1,3 +1,5 @@
+// "use client"
+
 import React from "react"
 
 import { Button } from "@/components/ui/button"
@@ -10,23 +12,50 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-    
+
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { LoadingButton } from ".."
+// import { useAppDispatch, useAppSelector } from "@/lib/hooks"
+// import { setDialogClose, setDialogOpen } from "@/lib/features/booleanSlice"
+
+type Student = {
+    _id: string;
+    name: string;
+    father_name: string;
+    shift: string;
+    seat?: string;
+    joining_date?: string;
+    is_hidden: boolean;
+};
 
 interface LibraryStudentDialogProps {
     triggerClassName?: string;
     label: string;
     submitHandler?: (formData: FormData) => void;
+    student?: Student;
 }
 
-export default function LibraryStudentDialog({ triggerClassName = "", label, submitHandler }: LibraryStudentDialogProps) {
+export default function LibraryStudentDialog({ triggerClassName = "", label, submitHandler, student }: LibraryStudentDialogProps) {
+
+    // const dispatch = useAppDispatch()
+    // const isDialogOpen = useAppSelector((state) => state.booleanSlice.isDialogOpen)
+
     return (
-        <Dialog>
+        <Dialog
+            // open={isDialogOpen}
+            // onOpenChange={(open) => {
+            //     if (open) dispatch(setDialogOpen())
+            //     else dispatch(setDialogClose())
+            // }}
+        >
+
             <DialogTrigger asChild>
-                <Button variant="outline" className={triggerClassName}>
+                <Button
+                    // onClick={() => dispatch(setDialogOpen())}
+                    variant="outline"
+                    className={triggerClassName}>
                     {label}
                 </Button>
             </DialogTrigger>
@@ -47,6 +76,7 @@ export default function LibraryStudentDialog({ triggerClassName = "", label, sub
                             name="name"
                             placeholder="Enter student name"
                             required
+                            defaultValue={student?.name}
                         />
                     </div>
 
@@ -57,6 +87,8 @@ export default function LibraryStudentDialog({ triggerClassName = "", label, sub
                             id="father_name"
                             name="father_name"
                             placeholder="Enter father name"
+                            required
+                            defaultValue={student?.father_name}
                         />
                     </div>
 
@@ -68,6 +100,7 @@ export default function LibraryStudentDialog({ triggerClassName = "", label, sub
                             name="seat"
                             placeholder="e.g. A12"
                             required
+                            defaultValue={student?.seat}
                         />
                     </div>
 
@@ -83,6 +116,7 @@ export default function LibraryStudentDialog({ triggerClassName = "", label, sub
                                     value="morning"
                                     className="h-4 w-4"
                                     required
+                                    defaultChecked={student?.shift === "morning"}
                                 />
                                 <Label htmlFor="shift-morning" className="font-normal">
                                     Morning
@@ -95,6 +129,7 @@ export default function LibraryStudentDialog({ triggerClassName = "", label, sub
                                     name="shift"
                                     value="evening"
                                     className="h-4 w-4"
+                                    defaultChecked={student?.shift === "evening"}
                                 />
                                 <Label htmlFor="shift-evening" className="font-normal">
                                     Evening
@@ -107,6 +142,7 @@ export default function LibraryStudentDialog({ triggerClassName = "", label, sub
                                     name="shift"
                                     value="both"
                                     className="h-4 w-4"
+                                    defaultChecked={student?.shift === "both"}
                                 />
                                 <Label htmlFor="shift-both" className="font-normal">
                                     Both
@@ -122,6 +158,8 @@ export default function LibraryStudentDialog({ triggerClassName = "", label, sub
                             id="joining_date"
                             name="joining_date"
                             type="date"
+                            required
+                            defaultValue={student?.joining_date ? new Date(student.joining_date).toISOString().split('T')[0] : ''}
                         />
                     </div>
 
@@ -138,6 +176,7 @@ export default function LibraryStudentDialog({ triggerClassName = "", label, sub
                             name="is_hidden"
                             type="checkbox"
                             className="h-4 w-4 rounded border"
+                            defaultChecked={student?.is_hidden}
                         />
                     </div>
 
@@ -146,13 +185,14 @@ export default function LibraryStudentDialog({ triggerClassName = "", label, sub
                         className="mt-2 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
                         <DialogClose asChild>
                             <Button
+                                // onClick={() => dispatch(setDialogClose())}
                                 variant="outline"
                                 type="button"
                                 className="w-full sm:w-auto">
                                 Cancel
                             </Button>
                         </DialogClose>
-                       <LoadingButton content="save"/>
+                        <LoadingButton content="save" />
                     </DialogFooter>
                 </form>
             </DialogContent>

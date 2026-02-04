@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import LibraryStudent from "@/model/student.model"
+
+
 export async function DELETE(req: NextRequest) {
     try {
         const { id } = await req.json()
+
         const result = await LibraryStudent.deleteOne({ _id: id })
         // console.log(result)
         if (!result.acknowledged || result.deletedCount === 0) {

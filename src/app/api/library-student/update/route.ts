@@ -4,14 +4,22 @@ import { NextRequest, NextResponse } from "next/server";
 export async function PUT(request: NextRequest) {
     try {
         const body = await request.json()
-        const { id , data } = body
-        console.log(body)
-        const update = await LibraryStudent.updateOne({ _id: id }, {
-            ...data
-        })
-        
+        const { id, data } = body
+        // console.log(id)
+        // console.log(data)
+
+        const updatedDocument = await LibraryStudent.findByIdAndUpdate(id, { ...data }, { new: true })
+
+        // console.log(update)
+        if (!updatedDocument) {
+            return NextResponse.json(
+                { success: false, message: "Update Failed" },
+                { status: 400 }
+            );
+        }
+
         return NextResponse.json(
-            { success: true, message: "Student updated", data: id },
+            { success: true, message: "Student updated", data: updatedDocument },
             { status: 200 }
         );
 

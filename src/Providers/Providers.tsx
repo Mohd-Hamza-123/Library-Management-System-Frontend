@@ -1,11 +1,11 @@
 'use client'
-import StoreProvider from '@/Providers/StoreProviders'
 import React from 'react'
 import QueryProvider from './Queryprovider'
+import StoreProvider from '@/Providers/StoreProviders'
 
 export default function Providers({ children }: { children: React.ReactNode }) {
     return (
-        <StoreProvider>
+        <StoreProvider >
             <QueryProvider>
                 {children}
             </QueryProvider>

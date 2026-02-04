@@ -4,7 +4,9 @@ import { Spinner } from '.';
 import { useFormStatus } from 'react-dom'
 
 export default function LoadingButton({ content }: { content: string }) {
+    
     const { pending } = useFormStatus();
+
     return (
         <button
             disabled={pending}

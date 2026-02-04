@@ -10,8 +10,15 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
+import useLibraryStudent from "@/hooks/useLibraryStudent"
 
-export default function LibraryStudentAlert({ triggerClassName = "" }: { triggerClassName?: string }) {
+export default function LibraryStudentAlert({
+    triggerClassName = "",
+    studentId,
+    block }: { triggerClassName?: string, studentId: string, block: string }) {
+
+    const { deleteLibraryStudent } = useLibraryStudent();
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -21,12 +28,12 @@ export default function LibraryStudentAlert({ triggerClassName = "" }: { trigger
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure you want to delete this student?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. The student will be permanently removed from the system.
+                        This action cannot be undone. The student will be permanently removed.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction>Continue</AlertDialogAction>
+                    <AlertDialogAction onClick={() => deleteLibraryStudent(studentId, block)}>Delete</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

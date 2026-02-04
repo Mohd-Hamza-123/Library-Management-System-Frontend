@@ -1,17 +1,21 @@
-import { createSlice, configureStore } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+
+const initialState = {
+    isDialogOpen: false
+}
 
 const booleanSlice = createSlice({
-    name: 'counter',
-    initialState: { value: 0 },
+    name: 'booleanSlice',
+    initialState: initialState,
     reducers: {
-        incremented: state => {
-            state.value += 1
+        setDialogOpen: (state) => {
+            state.isDialogOpen = true
         },
-        decremented: state => {
-            state.value -= 1
+        setDialogClose: (state) => {
+            state.isDialogOpen = false
         }
     }
 })
 
-export const { incremented, decremented } = booleanSlice.actions
+export const { setDialogOpen, setDialogClose } = booleanSlice.actions
 export default booleanSlice.reducer

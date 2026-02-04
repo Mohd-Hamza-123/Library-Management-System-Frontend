@@ -102,8 +102,8 @@ export default function LibraryStudentPage() {
 
 
   return (
-    <main className="bg-[#f5f7fb] px-3 py-5 sm:px-5 lg:px-6">
-      <div className="mx-auto max-w-5xl">
+    <main className="bg-[#f5f7fb] px-3 py-5 sm:px-5 lg:px-6 border">
+      <div className="mx-auto max-w-[95%]">
         {/* Page header */}
         <header className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>

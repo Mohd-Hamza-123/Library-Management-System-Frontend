@@ -1,7 +1,15 @@
+"use client"
+
 import { toast } from "sonner";
+import { useAppDispatch } from "@/lib/hooks";
+import { setDialogClose } from "@/lib/features/booleanSlice";
 import { LibraryStudentSchema } from "@/lib/validation/libraryStudentSchema";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function useLibraryStudent() {
+
+    const dispatch = useAppDispatch()
+    const queryClient = useQueryClient()
 
     const addLibraryStudent = async (data: LibraryStudentSchema) => {
         try {
@@ -16,6 +24,31 @@ export default function useLibraryStudent() {
             const student = await response.json();
             // console.log(student);
             if (student.success) {
+                const newData = student.data
+                const block: string = student.data.seat.charAt(0)
+                // console.log(newData)
+                // console.log(block)
+                queryClient.setQueryData(['library-student'], (oldData: any) => {
+                    // console.log(oldData)
+                    if (!oldData) return oldData
+                    const newState = {
+                        ...oldData,
+                        pages: oldData.pages.map((page: any) => {
+                            return {
+                                ...page,
+                                data: page.data.map((entity: any) => {
+                                    if (entity.block !== block) return entity
+                                    return {
+                                        ...entity,
+                                        students: [...entity.students, newData]
+                                    }
+                                })
+                            }
+                        })
+                    }
+                    // console.log(newState)
+                    return newState
+                })
                 toast(student.message, {
                     duration: 4000,
                     style: {
@@ -29,6 +62,8 @@ export default function useLibraryStudent() {
             } else {
                 throw new Error(student.error || "Failed to add student");
             }
+
+            dispatch(setDialogClose())
         } catch (error: unknown) {
             console.error("Error adding library student:", error);
             const errorMessage = process.env.NODE_ENV === "development" ? error instanceof Error ? error.message : "Internal Server Error" : "Failed to add student";
@@ -44,15 +79,48 @@ export default function useLibraryStudent() {
     }
     const updateLibraryStudent = async (id: string, data: LibraryStudentSchema) => {
         try {
+
             const update = await fetch(`/api/library-student/update/`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ ...data, id }),
+                body: JSON.stringify({ data, id }),
             })
+
             const student = await update.json()
+
             if (student.success) {
+
+                const updatedStudent = student.data
+                const block: string = student.data.seat.charAt(0)
+
+                queryClient.setQueryData(['library-student'], (oldData: any) => {
+                    // if (!oldData) return oldData
+
+                    const newData = {
+                        ...oldData,
+                        pages: oldData.pages.map((page: any) => {
+                            return {
+                                ...page,
+                                data: page.data.map((entity: any) => {
+                                    if (entity.block !== block) return entity
+                                    return {
+                                        ...entity,
+                                        students: entity.students.map((student: any) => {
+                                            if (student._id !== id) return student
+                                            return updatedStudent
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+                    console.log(oldData)
+                    console.log(newData)
+
+                    return newData
+                })
                 toast(student.message, {
                     duration: 4000,
                     style: {
@@ -66,6 +134,9 @@ export default function useLibraryStudent() {
             } else {
                 throw new Error(student.error || "Failed to update student");
             }
+
+            dispatch(setDialogClose())
+
         } catch (error: unknown) {
             console.error("Error updating library student:", error);
             const errorMessage = process.env.NODE_ENV === "development" ? error instanceof Error ? error.message : "Internal Server Error" : "Failed to update student";
@@ -104,8 +175,87 @@ export default function useLibraryStudent() {
             })
         }
     }
+    const deleteLibraryStudent = async (id: string, block: string) => {
+
+        try {
+            const response = await fetch(`/api/library-student/delete/`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id }),
+            })
+
+            const student = await response.json()
+
+            if (student.success) {
+
+                queryClient.setQueryData(['library-student'], (oldData: any) => {
+
+                    if (!oldData) return oldData
+
+                    const newData = {
+                        ...oldData,
+                        pages: oldData.pages.map((page: any) => {
+                            return {
+                                ...page,
+                                data: page.data.map((entity: any) => {
+                                    if (entity.block !== block) return entity
+                                    return {
+                                        ...entity,
+                                        students: entity.students.filter((student: any) => student._id !== id)
+                                    }
+                                })
+                            }
+                        })
+                    }
+
+                    // console.log(oldData)
+                    // console.log(newData)
+                    return newData
+
+                })
+
+                toast(student.message, {
+                    duration: 4000,
+                    style: {
+                        color: "green",
+                    },
+                    action: {
+                        label: "Undo",
+                        onClick: () => console.log("Undo"),
+                    },
+                })
+
+            } else {
+
+                toast(student.message, {
+                    duration: 4000,
+                    style: {
+                        color: "red",
+                    },
+                    action: {
+                        label: "Undo",
+                        onClick: () => console.log("Undo"),
+                    },
+                })
+            }
 
 
-    return { addLibraryStudent, updateLibraryStudent, getLibraryStudent }
+        } catch (error) {
+            console.log("error deleting library student", error)
+            const errorMessage = process.env.NODE_ENV === "development" ? error instanceof Error ? error.message : "Internal Server Error" : "Failed to delete student";
+            toast(errorMessage, {
+                duration: 2500,
+                action: {
+                    label: "Undo",
+                    onClick: () => console.log("Undo"),
+                },
+            })
+        }
+    }
+
+
+    return { addLibraryStudent, updateLibraryStudent, getLibraryStudent, deleteLibraryStudent }
 
 }
