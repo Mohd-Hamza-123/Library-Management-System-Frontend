@@ -6,11 +6,11 @@ import { CurrentSession, ProfileLink } from "../index"
 export default async function Sidebar() {
 
     return (
-        <aside className='fixed bottom-0 h-fit w-full flex flex-row md:static md:w-[13dvh] md:h-full md:flex md:flex-col justify-evenly items-center py-3 bg-white border-t-2 border-indigo-600 md:border-none'>
+        <aside className='fixed bottom-0 h-[10dvh] w-full flex flex-row md:static md:w-[13dvh] md:h-full md:flex md:flex-col justify-evenly items-center py-3 bg-white border-t-2 border-indigo-600 md:border-none'>
             
             <SidebarLinks/>
 
-            <div className="relative flex flex-col items-center gap-4">
+            <div className="relative flex flex-row md:flex-col items-center gap-4">
                 <ProfileLink>
                     <button
                         className="flex items-center gap-3 rounded-full px-2 py-1 hover:bg-slate-50 transition cursor-pointer"

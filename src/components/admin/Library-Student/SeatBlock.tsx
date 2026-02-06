@@ -1,18 +1,9 @@
 import { toast } from "sonner";
 import { useState } from "react";
 import { submitHandler } from "./action";
+import type { Student } from "@/types/models.type";
 import useLibraryStudent from "@/hooks/useLibraryStudent";
-import { LibraryStudentAlert, LibraryStudentDialog } from "@/components";
-
-type Student = {
-  _id: string;
-  name: string;
-  father_name: string;
-  shift: string;
-  seat: string;
-  joining_date?: string;
-  is_hidden: boolean;
-};
+import { LibraryStudentAlert, LibraryStudentDialog, LibraryStudentTableSkeleton } from "@/components";
 
 type Block = {
   block: string;
@@ -20,45 +11,35 @@ type Block = {
 };
 
 type SeatBlockProps = {
-  blocks: Block[];
+  studentBlocks: Block[];
 };
 
-
-export default function SeatBlock({ blocks }: SeatBlockProps) {
-  // console.log(blocks)
-  const [id, setId] = useState('')
-  const { updateLibraryStudent } = useLibraryStudent()
+export default function SeatBlock({ studentBlocks }: SeatBlockProps) {
+  console.log(studentBlocks)
+  const [id, setId] = useState("");
+  const { updateLibraryStudent } = useLibraryStudent();
 
   const updateStudent = async (formData: FormData) => {
-    const result = submitHandler(formData)
-    // console.log(id)
+    const result = submitHandler(formData);
+
     if (result.success && result.data && id) {
-
-      await updateLibraryStudent(id, result?.data)
-
+      await updateLibraryStudent(id, result.data);
     } else {
       toast(result?.message, {
         duration: 5000,
-        style: {
-          color: "red",
-        },
-        action: {
-          label: "Undo",
-          onClick: () => console.log("Undo"),
-        },
-      })
+        style: { color: "red" },
+      });
     }
-  }
+  };
 
   return (
-
     <div className="space-y-8">
-      {blocks?.map((block) => (
-
-        <section key={block.block} className="w-full rounded-2xl border border-gray-100 bg-white shadow-sm">
-          {/* BLOCK HEADER */}
-          <div className="rounded-t-2xl bg-[#f7f8ff] px-4 py-3 text-lg font-semibold text-gray-800">
-            Block {block.block}
+      {studentBlocks.length > 0 && studentBlocks?.map((block) => (
+        <section
+          key={block.block}
+          className="w-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+          {/* ================= BLOCK HEADER ================= */}
+          <div className="bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700">Block {block.block}
           </div>
 
           {/* ================= MOBILE VIEW ================= */}
@@ -66,25 +47,37 @@ export default function SeatBlock({ blocks }: SeatBlockProps) {
             {block.students.map((s) => (
               <div
                 key={s._id}
-                className="flex flex-col gap-2 rounded-xl bg-[#f7f8ff] p-3 shadow-[0_8px_20px_rgba(0,0,0,0.03)]">
-
+                className="flex flex-col gap-2 rounded-xl border border-indigo-100 bg-indigo-50/40 p-4 shadow-sm">
+                {/* Name + Father */}
                 <div>
-                  <p className="text-sm font-semibold text-gray-900"> {s.name}</p>
-                  <p className="text-xs text-gray-500">Father: {s.father_name}</p>
-                  <th className="font-medium text-sm text-gray-900">Seat : {s.seat} </th>
+                  <p className="text-sm font-semibold text-gray-900">
+                    {s.name}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Father: {s.father_name}
+                  </p>
+                  <p className="mt-1 text-sm font-medium text-indigo-700">Seat : {s.seat}</p>
                 </div>
 
+                {/* Shift */}
                 <div className="text-xs text-gray-600">
-                  Shift:{" "} <span className="font-medium text-gray-900">{s.shift}</span>
+                  Shift:{" "}
+                  <span className="inline-flex rounded-full bg-indigo-100 px-2 py-0.5 font-medium capitalize text-indigo-700">
+                    {s.shift}
+                  </span>
                 </div>
 
                 {/* ACTIONS */}
                 <div className="flex gap-2 pt-2" onClick={() => setId(s._id)}>
-
-                  <LibraryStudentDialog label="update" triggerClassName="h-8 rounded-full border-indigo-200 bg-white px-4 text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50 transition" student={s} submitHandler={updateStudent} />
+                  <LibraryStudentDialog
+                    label="update"
+                    student={s}
+                    submitHandler={updateStudent}
+                    triggerClassName="h-8 rounded-full border border-indigo-200 bg-white px-4 text-sm text-indigo-600 hover:bg-indigo-50 transition"
+                  />
 
                   <LibraryStudentAlert
-                    triggerClassName="h-8 px-3 rounded-full text-red-600 hover:bg-red-50"
+                    triggerClassName="h-8 rounded-full px-4 text-sm text-red-600 hover:bg-red-50 transition"
                     studentId={s._id}
                     block={s.seat[0]}
                   />
@@ -93,7 +86,7 @@ export default function SeatBlock({ blocks }: SeatBlockProps) {
             ))}
 
             {block.students.length === 0 && (
-              <p className="py-3 text-center text-xs text-gray-400">
+              <p className="py-4 text-center text-xs text-gray-400">
                 No students in this block.
               </p>
             )}
@@ -102,8 +95,8 @@ export default function SeatBlock({ blocks }: SeatBlockProps) {
           {/* ================= DESKTOP TABLE ================= */}
           <div className="hidden border-t border-gray-100 md:block">
             <div className="overflow-x-auto">
-              <table className="w-full table-fixed border-collapse bg-white text-sm">
-                <thead className="bg-[#f7f8fc] text-xs uppercase tracking-wide text-gray-500">
+              <table className="w-full table-fixed border-collapse text-sm">
+                <thead className="bg-indigo-600 text-xs uppercase tracking-wide text-white">
                   <tr>
                     <th className="px-5 py-3 text-left">Name</th>
                     <th className="px-5 py-3 text-left">Father Name</th>
@@ -118,27 +111,42 @@ export default function SeatBlock({ blocks }: SeatBlockProps) {
                   {block.students.map((s, idx) => (
                     <tr
                       key={s._id}
-                      className={`transition hover:bg-[#f5f5ff] ${idx % 2 === 0 ? "bg-white" : "bg-[#fafbff]"
-                        }`}>
-
-                      <td className="px-5 py-3 font-medium text-gray-700">{s.name}</td>
-                      <td className="px-5 py-3 text-gray-700">{s.father_name}</td>
-                      <td className="px-5 py-3 text-gray-700">{s.seat || "-"}</td>
-                      <td className="px-5 py-3 text-gray-700">{s.shift}</td>
-                      <td className="px-5 py-3 text-gray-700">{s.joining_date ? new Date(s.joining_date).toDateString() : "-"}
+                      className={`transition ${idx % 2 === 0 ? "bg-white" : "bg-indigo-50/40"
+                        } hover:bg-indigo-50`}>
+                      <td className="px-5 py-3 font-medium text-gray-800">
+                        {s.name}
+                      </td>
+                      <td className="px-5 py-3 text-gray-700">
+                        {s.father_name}
+                      </td>
+                      <td className="px-5 py-3 text-gray-700">
+                        {s.seat || "-"}
+                      </td>
+                      <td className="px-5 py-3">
+                        <span className="inline-flex rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium capitalize text-indigo-700">
+                          {s.shift}
+                        </span>
+                      </td>
+                      <td className="px-5 py-3 text-gray-600">
+                        {s.joining_date
+                          ? new Date(s.joining_date).toDateString()
+                          : "-"}
                       </td>
 
                       {/* ACTIONS */}
                       <td className="px-5 py-3">
-                        <div className="flex gap-2" onClick={() => setId(s._id)}>
+                        <div
+                          className="flex gap-2"
+                          onClick={() => setId(s._id)}
+                        >
                           <LibraryStudentDialog
-                            student={s}
                             label="update"
+                            student={s}
                             submitHandler={updateStudent}
-                            triggerClassName="h-8 rounded-full border-indigo-200 bg-white px-4 text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50 transition"
+                            triggerClassName="h-8 rounded-full border border-indigo-200 bg-white px-4 text-indigo-600 hover:bg-indigo-50 transition"
                           />
                           <LibraryStudentAlert
-                            triggerClassName="h-8 px-3 rounded-full text-red-600 hover:bg-red-50"
+                            triggerClassName="h-8 rounded-full px-4 text-red-600 hover:bg-red-50 transition"
                             studentId={s._id}
                             block={s.seat[0]}
                           />
@@ -163,6 +171,7 @@ export default function SeatBlock({ blocks }: SeatBlockProps) {
           </div>
         </section>
       ))}
+      {studentBlocks.length === 0 && <LibraryStudentTableSkeleton/>}
     </div>
   );
 }

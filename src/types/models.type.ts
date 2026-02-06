@@ -1,4 +1,5 @@
-export type LibraryStudent = {
+export type Student = {
+    _id : string;
     name: string;
     father_name: string;
     seat: string;

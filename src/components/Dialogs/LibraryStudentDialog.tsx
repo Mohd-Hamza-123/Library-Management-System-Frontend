@@ -17,18 +17,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { LoadingButton } from ".."
+import type { Student } from "@/types/models.type"
 // import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 // import { setDialogClose, setDialogOpen } from "@/lib/features/booleanSlice"
 
-type Student = {
-    _id: string;
-    name: string;
-    father_name: string;
-    shift: string;
-    seat?: string;
-    joining_date?: string;
-    is_hidden: boolean;
-};
 
 interface LibraryStudentDialogProps {
     triggerClassName?: string;

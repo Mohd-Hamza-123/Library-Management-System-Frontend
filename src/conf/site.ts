@@ -1,6 +1,6 @@
 
 export const siteConfig = {
-    siteName: "MS Lib",
+    siteName: "MS Academy",
     description: "This web application is a Library Management System",
     developer: {
         name: "Mohd Hamza",

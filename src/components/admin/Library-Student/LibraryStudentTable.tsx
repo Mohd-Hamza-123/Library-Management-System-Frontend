@@ -2,36 +2,25 @@
 
 import { toast } from "sonner";
 import SeatBlock from "./SeatBlock";
+import { submitHandler } from "./action";
 import { seatBlocks as block } from "@/constant";
+import React, { useEffect, useRef } from "react";
+import type { Student } from "@/types/models.type";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import useLibraryStudent from "@/hooks/useLibraryStudent";
-import React, { useEffect, useRef, useState } from "react";
 import { LibraryStudentDialog, Spinner } from "@/components";
-import { libraryStudentSchema } from "@/lib/validation/libraryStudentSchema";
-import { submitHandler } from "./action";
 
-type Student = {
-  _id: string;
-  name: string;
-  father_name: string;
-  shift: string;
-  seat?: string;
-  joining_date?: string;
-};
 
-type Block = {
+type StudentBlock = {
   block: string;
   students: Student[];
 };
 
-type SeatBlockProps = {
-  blocks: Block[] | [];
-};
 
 export default function LibraryStudentPage() {
 
-  const { addLibraryStudent, getLibraryStudent } = useLibraryStudent()
   const spinnerRef = useRef<HTMLDivElement>(null)
+  const { addLibraryStudent, getLibraryStudent } = useLibraryStudent()
 
   const {
     data,
@@ -55,7 +44,7 @@ export default function LibraryStudentPage() {
   })
 
   // console.log(data)
-  const students = data?.pages.flatMap((page) => page?.data) || []
+  const students: StudentBlock[] | [] = data?.pages.flatMap((page) => page?.data) || []
   // console.log(students)
 
   const createStudent = async (formData: FormData) => {
@@ -107,27 +96,22 @@ export default function LibraryStudentPage() {
         {/* Page header */}
         <header className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-xl font-semibold text-gray-900 md:text-2xl">
-              Library Students
-            </h1>
-            <p className="text-sm text-gray-500">
-              Add, edit & view library students.
-            </p>
+            <h1 className="text-xl font-semibold text-gray-900 md:text-2xl">Library Students</h1>
+            <p className="text-sm text-gray-500"> Add, edit & view library students. </p>
           </div>
 
           <LibraryStudentDialog
             triggerClassName="w-full md:w-auto inline-flex items-center justify-center rounded-full bg-[#5b3fff] px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#4a32d1] hover:text-white"
-            label="Add Student"
             submitHandler={createStudent}
+            label="Add Student"
           />
 
         </header>
 
         {/* seat blocks */}
-        <SeatBlock blocks={students} />
-        {hasNextPage && <div className="flex justify-center my-2" ref={spinnerRef}>
-          <Spinner />
-        </div>}
+
+        <SeatBlock studentBlocks={students} />
+        {hasNextPage && <div className="flex justify-center my-2" ref={spinnerRef}> <Spinner /></div>}
 
       </div>
     </main>

@@ -1,26 +1,24 @@
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
-
+import Image from 'next/image'
+import { siteConfig } from '@/conf/site'
 
 export default function Header() {
 
   return (
-    <header
-      className="w-full bg-white/95 backdrop-blur-sm h-[10dvh] flex items-center">
+    <header className="w-full bg-white/95 backdrop-blur-sm h-[10dvh] flex items-center">
       <div className="mx-auto w-full px-4 flex items-center gap-4">
         <Link href='/'>
           <div className="flex items-center gap-3">
             <Logo />
             <div className="leading-tight">
-              <div className="text-lg font-semibold text-slate-800">MS-Lib</div>
+              <div className="text-lg font-semibold text-slate-800">{siteConfig.siteName}</div>
               <div className="text-xs text-slate-400 tracking-wider">LIBRARY-MANAGEMENT</div>
             </div>
           </div>
         </Link>
       </div>
     </header>
-
   )
 }
 

@@ -19,7 +19,8 @@ export default function Dashboard() {
       title: "Library",
       desc: "Search books, issue & return",
       icon: <FiBook className="h-6 w-6" />,
-      path: "/library-option",
+      path: "/library-students",
+      active: true,
     },
     {
       id: "fees",
@@ -27,6 +28,7 @@ export default function Dashboard() {
       desc: "Pay or view invoices",
       icon: <FiDollarSign className="h-6 w-6" />,
       path: "/fees",
+      active: false,
     },
     {
       id: "courses",
@@ -34,6 +36,7 @@ export default function Dashboard() {
       desc: "Browse & enroll",
       icon: <FiLayers className="h-6 w-6" />,
       path: "/courses",
+      active: false,
     },
   ];
 
@@ -42,19 +45,10 @@ export default function Dashboard() {
   const cardHover = { scale: 1.03, y: -4, boxShadow: "0 8px 30px rgba(0,0,0,0.12)" };
 
   return (
-    <main className="h-[90dvh] overflow-y-scroll bg-gray-50 px-4 pt-4 pb-8 md:p-6 lg:p-8">
+    <div className="h-full bg-gray-50 px-4 pt-4 pb-8 md:p-6 lg:p-8">
       {/* HERO */}
       <section className="relative rounded-2xl overflow-hidden shadow-xl">
-        <div className="relative w-full h-40 md:h-56 lg:h-64">
-          <Image
-            src="/images/dashboard-bg.jpg"
-            alt="dashboard background"
-            fill
-            sizes="100vw"
-            style={{ objectFit: "cover", objectPosition: "center" }}
-            priority
-          />
-        </div>
+
 
         <div className="absolute inset-0 flex items-start justify-between p-3 md:p-6">
           <div className="text-left text-white">
@@ -73,7 +67,7 @@ export default function Dashboard() {
       </section>
 
       {/* MAIN GRID */}
-      <section className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+      <section className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* LEFT: main content (spans 3 cols on md+) */}
         <div
           className="col-span-1 md:col-span-3 bg-white rounded-2xl p-4 md:p-6 shadow">
@@ -93,10 +87,8 @@ export default function Dashboard() {
               {cards.map((c) => (
                 // legacyBehavior forces Link to render an <a> wrapper (Next compatibility)
                 <Link key={c.id} href={c.path}
-                  className="min-w-[300px] flex-wrap bg-white border border-gray-100 rounded-xl p-4 text-left snap-center cursor-pointer block hover:shadow-lg"
-
-                  role="link"
-                >
+                  className={`min-w-[300px] flex-wrap bg-white border border-gray-100 rounded-xl p-4 text-left snap-center cursor-pointer block hover:shadow-lg ${c.active ? "" : "hidden"}`}
+                  role="link">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
                       {React.cloneElement(c.icon, { className: "h-5 w-5" })}
@@ -115,7 +107,7 @@ export default function Dashboard() {
             <div className="hidden md:grid md:grid-cols-4 gap-4">
               {cards.map((c) => (
                 <Link key={c.id} href={c.path}
-                  className="group bg-gradient-to-br from-white to-gray-50 border border-gray-100 rounded-xl p-4 text-left hover:shadow-lg focus:outline-none block cursor-pointer"
+                  className={`group bg-gradient-to-br from-white to-gray-50 border border-gray-100 rounded-xl p-4 text-left hover:shadow-lg focus:outline-none block cursor-pointer ${c.active ? "" : "hidden"}`}
                   role="link"
                 >
                   <div className="flex items-center gap-3">
@@ -158,7 +150,19 @@ export default function Dashboard() {
         </aside>
       </section>
 
+      <figure className="w-full h-40 md:h-56 lg:h-64 rounded-xl overflow-hidden mt-5">
+        <Image
+          className="w-full object-cover object-center"
+          src="/images/dashboard-bg.jpg"
+          alt="dashboard background"
+          quality={100}
+          height={200}
+          width={200}
+          priority
+        />
+      </figure>
+
       <footer className="mt-6 text-right text-xs text-gray-400">MS-Lib • Library Management</footer>
-    </main>
+    </div>
   );
 }
