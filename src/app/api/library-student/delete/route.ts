@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import LibraryStudent from "@/model/student.model"
+import connectDB from "@/database/connectDB"
 
 
 export async function DELETE(req: NextRequest) {
     try {
+        await connectDB()
         const { id } = await req.json()
 
         const result = await LibraryStudent.deleteOne({ _id: id })

@@ -1,15 +1,17 @@
-import { joining_date } from "@/lib/validation/libraryStudentSchema";
+
+import connectDB from "@/database/connectDB";
 import LibraryStudent from "@/model/student.model";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
     try {
 
+        await connectDB()
+
         const { searchParams } = new URL(request.url);
 
         const seat = searchParams.get("seat");
         const pageParam = searchParams.get("pageParam") ? parseInt(searchParams.get("pageParam") as string) : 0
-
 
         const payload = await LibraryStudent.aggregate([
             {

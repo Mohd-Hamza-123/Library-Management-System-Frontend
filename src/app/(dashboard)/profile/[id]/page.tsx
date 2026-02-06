@@ -148,8 +148,7 @@ export default function ProfilePage() {
                                     className={`font-medium ${userData.emailVerified
                                             ? "text-green-600"
                                             : "text-red-600"
-                                        }`}
-                                >
+                                        }`}>
                                     {userData.emailVerified ? "Verified" : "Not verified"}
                                 </div>
                             </div>

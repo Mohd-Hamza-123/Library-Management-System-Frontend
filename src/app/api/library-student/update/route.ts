@@ -1,8 +1,10 @@
+import connectDB from "@/database/connectDB";
 import LibraryStudent from "@/model/student.model";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(request: NextRequest) {
     try {
+        await connectDB()
         const body = await request.json()
         const { id, data } = body
         // console.log(id)

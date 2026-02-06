@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import connectDB from "@/lib/connectDB";
+import connectDB from "@/database/connectDB";
 import { getRole } from "@/middlewares/auth.middleware";
 import { NextRequest, NextResponse } from "next/server";
 import LibraryStudent, { LibraryStudent as LibStudentType } from "@/model/student.model";
