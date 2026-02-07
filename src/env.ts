@@ -17,4 +17,5 @@ export const env = {
     GOOGLE_CLIENT_SECRET : requiredEnv("GOOGLE_CLIENT_SECRET"),
     MONGODB_AUTH_DATABASE : requiredEnv("MONGODB_AUTH_DATABASE"),
     MONGODB_LIBRARY_URI : requiredEnv("MONGODB_LIBRARY_URI"),
+    BASE_URL : requiredEnv("BASE_URL"),
 }

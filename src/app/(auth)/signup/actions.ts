@@ -15,6 +15,7 @@ export const register = async (formData: FormData) => {
         name,
         email,
         password,
+        role : 'user'
       }
     })
 
