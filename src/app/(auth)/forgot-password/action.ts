@@ -1,7 +1,8 @@
 "use server"
 
+import { env } from "@/env";
 import { auth } from "@/lib/auth";
-import conf from "@/conf/conf";
+
 
 export const forgotPassword = async (data: FormData) => {
 
@@ -11,7 +12,7 @@ export const forgotPassword = async (data: FormData) => {
         const response = await auth.api.requestPasswordReset({
             body: {
                 email: email, 
-                redirectTo: `${conf.BASE_URL}/reset-password`
+                redirectTo: `${env.BASE_URL}/reset-password`
             },
         });
         console.log(response);

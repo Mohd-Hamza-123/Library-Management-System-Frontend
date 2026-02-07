@@ -27,7 +27,7 @@ export function NavItem({ title, children, onClick }: NavItemProps) {
 
 export default function CurrentSession() {
 
-    const { signout, verifyEmail } = useAuthentication()
+    const { signout, verifyEmail } = useAuthentication();
     const dispatch = useAppDispatch()
     const userData = useAppSelector((state) => state.authSlice.userData);
     // console.log(userData?.email)

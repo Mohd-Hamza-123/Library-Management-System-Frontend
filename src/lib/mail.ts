@@ -1,5 +1,5 @@
+import { env } from "@/env";
 import nodemailer from "nodemailer";
-import conf from "@/conf/conf"
 
 interface ResetPassword {
   to: string;
@@ -21,17 +21,17 @@ export const resetPasswordEmail = async ({
 }: ResetPassword) => {
   try {
     const transporter = nodemailer.createTransport({
-      host: conf.SMTP_HOST,
-      port: conf.SMTP_PORT,
+      host: env.SMTP_HOST,
+      port: env.SMTP_PORT,
       // secure: true,
       auth: {
-        user: conf.SMTP_USER,
-        pass: conf.SMTP_PASS,
+        user: env.SMTP_USER,
+        pass: env.SMTP_PASS,
       },
     });
 
     const info = await transporter.sendMail({
-      from: conf.SMTP_USER,
+      from: env.SMTP_USER,
       to: to,
       subject: subject,
       text: text, // plain‑text body
@@ -142,17 +142,17 @@ export const verifyEmail = async ({
 }: VerifyEmail) => {
   try {
     const transporter = nodemailer.createTransport({
-      host: conf.SMTP_HOST,
-      port: conf.SMTP_PORT,
+      host: env.SMTP_HOST,
+      port: env.SMTP_PORT,
       // secure: true,
       auth: {
-        user: conf.SMTP_USER,
-        pass: conf.SMTP_PASS,
+        user: env.SMTP_USER,
+        pass: env.SMTP_PASS,
       },
     });
 
     const info = await transporter.sendMail({
-      from: conf.SMTP_USER,
+      from: env.SMTP_USER,
       to: to,
       subject: subject,
       html: `

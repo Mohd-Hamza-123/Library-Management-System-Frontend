@@ -1,4 +1,4 @@
-import conf from "@/conf/conf";
+import { env } from "@/env";
 import { MongoClient } from "mongodb";
 import { betterAuth } from "better-auth";
 import { admin } from "better-auth/plugins"
@@ -8,8 +8,9 @@ import { resetPasswordEmail, verifyEmail } from "./mail";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
 
-const client = new MongoClient(conf.MONGO_DB_URI);
-const db = client.db(conf.MONGO_DB_DATABASE_1);
+const client = new MongoClient(env.MONGODB_URI);
+
+const db = client.db(env.MONGODB_AUTH_DATABASE);
 
 export const auth = betterAuth({
     user: {
@@ -17,8 +18,6 @@ export const auth = betterAuth({
             role: {
                 type: "string",
                 required: true,
-                default: 'user',
-                enum: ["user", "admin"]
             }
         }
     },
@@ -44,8 +43,8 @@ export const auth = betterAuth({
     socialProviders: {
         google: {
             prompt: "select_account",
-            clientId: conf.GOOGLE_CLIENT_ID,
-            clientSecret: conf.GOOGLE_CLIENT_SECRET,
+            clientId: env.GOOGLE_CLIENT_ID,
+            clientSecret: env.GOOGLE_CLIENT_SECRET,
         },
     },
     emailVerification: {

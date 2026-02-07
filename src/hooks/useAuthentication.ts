@@ -29,6 +29,7 @@ export default function useAuthentication() {
             },
         })
     }
+    
     const verifyEmail = async (email: string) => {
         try {
             // console.log(email)
