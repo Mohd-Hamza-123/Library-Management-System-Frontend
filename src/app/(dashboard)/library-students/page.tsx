@@ -41,7 +41,8 @@ export default function LibrarySections() {
         },
     });
 
-    const students: StudentBlock[] | [] = data?.pages.flatMap((page) => page?.data) || [];
+    console.log("library-student : ",error)
+    const students: StudentBlock[] | [] = data?.pages?.flatMap((page) => page?.data) || [];
 
     useEffect(() => {
         const ref = spinnerRef.current;

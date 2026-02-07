@@ -12,7 +12,9 @@ import { changeUserRole } from "@/lib/auth";
 import { useAppSelector } from "@/lib/hooks";
 
 export default function Dashboard() {
-  const userData = useAppSelector((state) => state.authSlice.userData)
+
+  const userData = useAppSelector((state) => state.authSlice.userData);
+  
   const cards = [
     {
       id: "library",

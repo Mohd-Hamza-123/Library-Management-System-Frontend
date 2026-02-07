@@ -73,7 +73,9 @@ export default function StudentListDesktop({ data }: { data: StudentBlock[] }) {
                     </table>
                 </div>
             ))}
+
             {data.length === 0 && <LibraryStudentTableSkeleton />}
+            
         </section>
     );
 }

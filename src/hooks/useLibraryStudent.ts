@@ -153,16 +153,20 @@ export default function useLibraryStudent() {
     }
     const getLibraryStudent = async (seat: string, pageParam: number) => {
         try {
+
             const response = await fetch(`/api/library-student/get-all?seat=${seat}&pageParam=${pageParam}`, {
                 method: "GET",
             })
-            const student = await response.json()
+
+            const student = await response.json();
+
             if (student.success) {
-                // console.log(student)
+                console.log(student)
                 return { data: student.data, nextCursor: student.nextCursor }
             } else {
                 throw new Error(student.error || "Failed to get student");
             }
+            
         } catch (error: unknown) {
             console.log("error getting library student", error)
             const errorMessage = process.env.NODE_ENV === "development" ? error instanceof Error ? error.message : "Internal Server Error" : "Failed to get student";
