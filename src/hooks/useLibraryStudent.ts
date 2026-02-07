@@ -148,14 +148,14 @@ export default function useLibraryStudent() {
                 },
             })
         }
-
-
     }
+
     const getLibraryStudent = async (seat: string, pageParam: number) => {
         try {
 
             const response = await fetch(`/api/library-student/get-all?seat=${seat}&pageParam=${pageParam}`, {
                 method: "GET",
+                cache : "no-store"
             })
 
             const student = await response.json();
