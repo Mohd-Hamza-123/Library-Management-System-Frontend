@@ -52,6 +52,7 @@ export async function GET(request: NextRequest) {
             { status: 200 }
         );
     } catch (error: unknown) {
+        
         console.log("error getting library student", error)
         return NextResponse.json({
             success: false,
