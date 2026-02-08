@@ -13,11 +13,13 @@ const client = new MongoClient(env.MONGODB_URI);
 const db = client.db(env.MONGODB_AUTH_DATABASE);
 
 export const auth = betterAuth({
+    trustedOrigins: process.env.NODE_ENV === "production" ? [env.BASE_URL] : ["http://localhost:3000"],
     user: {
         additionalFields: {
             role: {
                 type: "string",
-                required: true,
+                required: false,
+                default: "user",
             }
         }
     },

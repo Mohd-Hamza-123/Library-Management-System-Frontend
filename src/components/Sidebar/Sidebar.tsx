@@ -18,7 +18,7 @@ export default async function Sidebar() {
                         <div className="h-9 w-9 rounded-full ring-1 ring-slate-200 overflow-hidden">
                             <Image
                                 className="h-full w-full object-cover"
-                                src='/images/logo.png'
+                                src='/images/ms-academy.png'
                                 alt="profile"
                                 height={20}
                                 width={20}

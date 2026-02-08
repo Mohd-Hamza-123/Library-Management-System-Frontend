@@ -4,6 +4,7 @@ const env = process.env.NODE_ENV;
 const nextConfig: NextConfig = {
   
   images: {
+    qualities : [75, 100],
     remotePatterns: [
       {
         protocol: 'https',

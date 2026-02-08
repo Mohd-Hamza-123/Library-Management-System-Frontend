@@ -1,13 +1,14 @@
 
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { getCurrentUserServer } from './lib/auth';
 
 export async function proxy(request: NextRequest) {
 
     const { pathname } = request.nextUrl
 
-    const token = request.cookies.get('better-auth.session_token')?.value
-    // console.log(token)
+    const token = request.cookies.get('better-auth.session_token')?.value ||  request.cookies.get('__Secure-better-auth.session_token')?.value
+    
+    console.log("token : ",token)
     if (!token) {
         return NextResponse.redirect(new URL("/login", request.url))
     }

@@ -56,7 +56,7 @@ export default function useAuthentication() {
             const response = await authClient.signIn.social({
                 provider: "google",
             });
-            console.log(response)
+            console.log("--------------------")
             if (response.error) {
                 console.log(response.error)
                 toast.error("Something went wrong. Please try again.")

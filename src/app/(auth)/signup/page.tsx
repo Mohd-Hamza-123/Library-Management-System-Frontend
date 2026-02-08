@@ -15,7 +15,7 @@ export default function SignUpPage() {
     const { signInWithGoogle } = useAuthentication()
     const submit = async (formData: FormData) => {
         const result = await register(formData)
-        // console.log(result)
+        console.log(result)
         if (result.success) {
             toast(result.message, {
                 duration: 2500,
