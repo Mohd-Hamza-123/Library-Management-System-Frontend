@@ -5,6 +5,22 @@ import { useAppDispatch } from "@/lib/hooks";
 import { setDialogClose } from "@/lib/features/booleanSlice";
 import { LibraryStudentSchema } from "@/lib/validation/libraryStudentSchema";
 import { useQueryClient } from "@tanstack/react-query";
+import { Student } from "@/types/models.type";
+
+type studentBlock = {
+    block: string,
+    students: Student[]
+}
+
+type pageType = {
+    nextCursor: number,
+    data: studentBlock[]
+}
+
+type oldDataType = {
+    pageParams: number[],
+    pages: pageType[]
+}
 
 export default function useLibraryStudent() {
 
@@ -22,21 +38,23 @@ export default function useLibraryStudent() {
                 body: JSON.stringify(data),
             });
             const student = await response.json();
+
             // console.log(student);
+
             if (student.success) {
                 const newData = student.data
                 const block: string = student.data.seat.charAt(0)
                 // console.log(newData)
                 // console.log(block)
-                queryClient.setQueryData(['library-student'], (oldData: any) => {
-                    // console.log(oldData)
+                queryClient.setQueryData(['library-student'], (oldData: oldDataType) => {
+
                     if (!oldData) return oldData
                     const newState = {
                         ...oldData,
-                        pages: oldData.pages.map((page: any) => {
+                        pages: oldData.pages.map((page: pageType) => {
                             return {
                                 ...page,
-                                data: page.data.map((entity: any) => {
+                                data: page.data.map((entity: studentBlock) => {
                                     if (entity.block !== block) return entity
                                     return {
                                         ...entity,
@@ -95,19 +113,19 @@ export default function useLibraryStudent() {
                 const updatedStudent = student.data
                 const block: string = student.data.seat.charAt(0)
 
-                queryClient.setQueryData(['library-student'], (oldData: any) => {
+                queryClient.setQueryData(['library-student'], (oldData: oldDataType) => {
                     // if (!oldData) return oldData
 
                     const newData = {
                         ...oldData,
-                        pages: oldData.pages.map((page: any) => {
+                        pages: oldData.pages.map((page: pageType) => {
                             return {
                                 ...page,
-                                data: page.data.map((entity: any) => {
+                                data: page.data.map((entity: studentBlock) => {
                                     if (entity.block !== block) return entity
                                     return {
                                         ...entity,
-                                        students: entity.students.map((student: any) => {
+                                        students: entity.students.map((student: Student) => {
                                             if (student._id !== id) return student
                                             return updatedStudent
                                         })
@@ -151,34 +169,32 @@ export default function useLibraryStudent() {
     }
 
     const getLibraryStudent = async (seat: string, pageParam: number) => {
-        try {
 
-            const response = await fetch(`/api/library-student/get-all?seat=${seat}&pageParam=${pageParam}`, {
-                method: "GET",
-                cache : "no-store"
-            })
+        const response = await fetch(`/api/library-student/get-all?seat=${seat}&pageParam=${pageParam}`, {
+            method: "GET",
+            cache: "no-store"
+        })
 
-            const student = await response.json();
+        if (!response.ok) {
+            const errorData = await response.json();
+            const errorMessage = errorData?.error || errorData?.message
+                    ? `[${response.status}] : ${errorData.error || errorData.message}`
+                    : "Failed to fetch students";
 
-            if (student.success) {
-                console.log(student)
-                return { data: student.data, nextCursor: student.nextCursor }
-            } else {
-                throw new Error(student.error || "Failed to get student");
-            }
-            
-        } catch (error: unknown) {
-            console.log("error getting library student", error)
-            const errorMessage = process.env.NODE_ENV === "development" ? error instanceof Error ? error.message : "Internal Server Error" : "Failed to get student";
-            toast(errorMessage, {
-                duration: 2500,
-                action: {
-                    label: "Undo",
-                    onClick: () => console.log("Undo"),
-                },
-            })
+            throw new Error(errorMessage)
         }
+
+        const student = await response.json();
+        console.log(student)
+
+        if (!student.success) {
+            throw new Error(student.message || "Failed to fetch students")
+        }
+
+        return { data: student.data, nextCursor: student.nextCursor }
+
     }
+
     const deleteLibraryStudent = async (id: string, block: string) => {
 
         try {
@@ -194,20 +210,20 @@ export default function useLibraryStudent() {
 
             if (student.success) {
 
-                queryClient.setQueryData(['library-student'], (oldData: any) => {
-
+                queryClient.setQueryData(['library-student'], (oldData: oldDataType) => {
+                    console.log(oldData)
                     if (!oldData) return oldData
 
                     const newData = {
                         ...oldData,
-                        pages: oldData.pages.map((page: any) => {
+                        pages: oldData.pages.map((page: pageType) => {
                             return {
                                 ...page,
-                                data: page.data.map((entity: any) => {
+                                data: page.data.map((entity: studentBlock) => {
                                     if (entity.block !== block) return entity
                                     return {
                                         ...entity,
-                                        students: entity.students.filter((student: any) => student._id !== id)
+                                        students: entity.students.filter((student: Student) => student._id !== id)
                                     }
                                 })
                             }

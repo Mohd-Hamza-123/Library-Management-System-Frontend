@@ -28,7 +28,7 @@ export default async function connectDB() {
 
         return cached.conn;
     } catch (error) {
-        console.error("❌ connectDB() error:", error);
+        console.error("MONGODB CONNECTION FAILED :", error);
         throw error; // rethrow so API returns 500
     }
 }

@@ -4,8 +4,8 @@ import { seatBlocks } from "@/constant";
 import type { Student } from "@/types/models.type";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import useLibraryStudent from "@/hooks/useLibraryStudent";
-import React, { useEffect, useRef, useState } from "react";
-import { Spinner, StudentListDesktop, StudentListMobile } from "@/components/";
+import React, { useEffect, useRef } from "react";
+import { DataFetchError, Spinner, StudentListDesktop, StudentListMobile } from "@/components/";
 
 type StudentBlock = {
     block: string;
@@ -14,13 +14,15 @@ type StudentBlock = {
 
 export default function LibrarySections() {
 
-    const [view, setView] = useState("list");
+
     const spinnerRef = useRef<HTMLDivElement>(null);
     const { getLibraryStudent } = useLibraryStudent();
+
 
     const {
         data,
         error,
+        isError,
         status,
         isFetching,
         hasNextPage,
@@ -41,7 +43,9 @@ export default function LibrarySections() {
         },
     });
 
-    console.log("library-student : ",error)
+
+    // console.log("library-student data : ", data)
+
     const students: StudentBlock[] | [] = data?.pages?.flatMap((page) => page?.data) || [];
 
     useEffect(() => {
@@ -63,60 +67,34 @@ export default function LibrarySections() {
 
         observer.observe(ref);
         return () => observer.unobserve(ref);
-    }, [hasNextPage, fetchNextPage, data]);
+    }, [hasNextPage, fetchNextPage, isFetchingNextPage]);
 
     return (
-      
+
         <div className="w-full bg-white shadow p-4 sm:p-6">
-            <h2 className="text-lg font-semibold mb-4">Library</h2>
-
-            {/* View Switcher */}
-            <div className="inline-flex rounded-lg bg-gray-100 p-1">
-                <button
-                    onClick={() => setView("list")}
-                    className={`px-4 py-1.5 rounded-lg text-sm font-medium transition
-        ${view === "list"
-                            ? "bg-white text-indigo-600 shadow"
-                            : "text-gray-600 hover:text-gray-800"}
-      `}
-                >
-                    List
-                </button>
-
-                <button
-                    onClick={() => setView("seat")} className={`px-4 py-1.5 rounded-lg text-sm font-medium transition
-        ${view === "seat"
-                            ? "bg-white text-indigo-600 shadow"
-                            : "text-gray-600 hover:text-gray-800"}
-      `}>
-                    Seat
-                </button>
-            </div>
-
-            {/* Content */}
-
-            {view === "list" && (
+            <h2 className="text-lg font-semibold mb-4">Library Student List</h2>
+            {isError ? (
+                <DataFetchError error={error}/>
+            ) : (
                 <>
-                    {/* DESKTOP TABLE */}
-                    < StudentListDesktop data={students} />
-                    {/* MOBILE STACKED ROWS */}
-                    <StudentListMobile data={students} />
+                    <StudentListDesktop
+                        data={students}
+                        isLoading={status === "pending"}
+                    />
+                    <StudentListMobile
+                        data={students}
+                        isLoading={status === "pending"}
+                    />
+
+                    {hasNextPage && (
+                        <div className="flex justify-center py-4" ref={spinnerRef}>
+                            <Spinner />
+                        </div>
+                    )}
                 </>
             )}
 
-            {/* Spinner */}
-            {hasNextPage && (
-                <div className="flex justify-center py-4" ref={spinnerRef}>
-                    <Spinner />
-                </div>
-            )}
 
-            {/* Seat View */}
-            {view === "seat" && (
-                <div className="rounded-lg border p-6 text-center text-sm text-gray-600">
-                    Seat view selected.
-                </div>
-            )}
 
         </div>
 

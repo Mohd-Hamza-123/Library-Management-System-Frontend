@@ -1,6 +1,6 @@
 
-import { type NextRequest, NextResponse } from 'next/server';
 import { getCurrentUserServer } from './lib/auth';
+import { type NextRequest, NextResponse } from 'next/server';
 
 export async function proxy(request: NextRequest) {
 

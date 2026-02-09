@@ -8,7 +8,14 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 // Create a client
-const queryClient = new QueryClient()
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+    },
+});
 
 
 export default function QueryProvider({ children }: { children: React.ReactNode }) {

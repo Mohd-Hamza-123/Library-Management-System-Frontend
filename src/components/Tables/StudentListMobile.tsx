@@ -7,12 +7,13 @@ type StudentBlock = {
     students: Student[];
 };
 
-export default function StudentListMobile({ data }: { data : StudentBlock[] }) {
-    
+export default function StudentListMobile({ data, isLoading }: { data: StudentBlock[], isLoading: boolean }) {
+
     return (
         <div className="md:hidden">
             <div className="flex flex-col gap-5 my-4">
-                {data.length > 0 && data?.map((entity: StudentBlock) => (
+                {isLoading && <StudentTableMobile />}
+                {!isLoading && Array.isArray(data) && data?.map((entity: StudentBlock) => (
                     <div
                         key={entity.block}
                         className="flex flex-col gap-4 rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
@@ -70,7 +71,7 @@ export default function StudentListMobile({ data }: { data : StudentBlock[] }) {
                 ))}
             </div>
 
-            {data.length === 0 && <StudentTableMobile />}
+
         </div>
     );
 }

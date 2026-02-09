@@ -8,14 +8,12 @@ import React, { useEffect, useRef } from "react";
 import type { Student } from "@/types/models.type";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import useLibraryStudent from "@/hooks/useLibraryStudent";
-import { LibraryStudentDialog, Spinner } from "@/components";
-
+import { DataFetchError, LibraryStudentDialog, Spinner } from "@/components";
 
 type StudentBlock = {
   block: string;
   students: Student[];
 };
-
 
 export default function LibraryStudentPage() {
 
@@ -26,6 +24,7 @@ export default function LibraryStudentPage() {
     data,
     error,
     status,
+    isError,
     isFetching,
     hasNextPage,
     fetchNextPage,
@@ -109,9 +108,15 @@ export default function LibraryStudentPage() {
         </header>
 
         {/* seat blocks */}
+        {isError ?
+          <DataFetchError error={error} />
+          :
+          <>
+            <SeatBlock studentBlocks={students} isLoading={status === "pending"} />
+            {hasNextPage && <div className="flex justify-center my-2" ref={spinnerRef}> <Spinner /></div>}
+          </>
+        }
 
-        <SeatBlock studentBlocks={students} />
-        {hasNextPage && <div className="flex justify-center my-2" ref={spinnerRef}> <Spinner /></div>}
 
       </div>
     </main>

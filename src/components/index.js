@@ -16,6 +16,7 @@ export { default as StudentTableMobile } from "./Skeletons/StudentTableMobile"
 export { default as LibraryStudentDialog } from "./Dialogs/LibraryStudentDialog"
 export { default as LibraryStudentTable } from "./admin/Library-Student/LibraryStudentTable"
 export { default as LibraryStudentTableSkeleton} from "./Skeletons/LibraryStudentTableSkeleton"
+export { default as DataFetchError } from "./DataFetchError"
 
 // Note
 // export { default as GoToHome } from './GoToHome';

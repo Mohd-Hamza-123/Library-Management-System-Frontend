@@ -8,11 +8,14 @@ type StudentBlock = {
 };
 
 
-export default function StudentListDesktop({ data }: { data: StudentBlock[] }) {
+export default function StudentListDesktop({ data, isLoading }: { data: StudentBlock[], isLoading: boolean }) {
 
     return (
         <section className="md:flex flex-col gap-5 py-8 hidden">
-            {data && data.map((entity: StudentBlock) => (
+
+            {isLoading && <LibraryStudentTableSkeleton />}
+
+            {!isLoading && Array.isArray(data) && data.map((entity: StudentBlock) => (
                 <div
                     key={entity.block}
                     className="hidden sm:block rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
@@ -74,8 +77,8 @@ export default function StudentListDesktop({ data }: { data: StudentBlock[] }) {
                 </div>
             ))}
 
-            {data.length === 0 && <LibraryStudentTableSkeleton />}
-            
+
+
         </section>
     );
 }

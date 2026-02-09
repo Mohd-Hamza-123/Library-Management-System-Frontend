@@ -12,10 +12,11 @@ type Block = {
 
 type SeatBlockProps = {
   studentBlocks: Block[];
+  isLoading: boolean;
 };
 
-export default function SeatBlock({ studentBlocks }: SeatBlockProps) {
-  console.log(studentBlocks)
+export default function SeatBlock({ studentBlocks, isLoading }: SeatBlockProps) {
+  // console.log(studentBlocks)
   const [id, setId] = useState("");
   const { updateLibraryStudent } = useLibraryStudent();
 
@@ -34,7 +35,9 @@ export default function SeatBlock({ studentBlocks }: SeatBlockProps) {
 
   return (
     <div className="space-y-8">
-      {studentBlocks.length > 0 && studentBlocks?.map((block) => (
+
+      {isLoading && <LibraryStudentTableSkeleton />}
+      {!isLoading && Array.isArray(studentBlocks) && studentBlocks?.map((block : Block) => (
         <section
           key={block.block}
           className="w-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
@@ -171,7 +174,7 @@ export default function SeatBlock({ studentBlocks }: SeatBlockProps) {
           </div>
         </section>
       ))}
-      {studentBlocks.length === 0 && <LibraryStudentTableSkeleton/>}
+
     </div>
   );
 }
