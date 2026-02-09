@@ -1,10 +1,10 @@
 "use client";
 
 import { seatBlocks } from "@/constant";
+import React, { useEffect, useRef } from "react";
 import type { Student } from "@/types/models.type";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import useLibraryStudent from "@/hooks/useLibraryStudent";
-import React, { useEffect, useRef } from "react";
 import { DataFetchError, Spinner, StudentListDesktop, StudentListMobile } from "@/components/";
 
 type StudentBlock = {
@@ -37,17 +37,16 @@ export default function LibrarySections() {
         },
         getNextPageParam: (lastPage, pages) => {
             // console.log(lastPage?.nextCursor)
-            return lastPage?.nextCursor < seatBlocks.length
-                ? lastPage?.nextCursor
-                : undefined;
+            return lastPage?.nextCursor < seatBlocks.length ? lastPage?.nextCursor : undefined;
         },
     });
 
 
-    // console.log("library-student data : ", data)
+    console.log("library-student data : ", data)
+    // console.log("ispending", status)
 
     const students: StudentBlock[] | [] = data?.pages?.flatMap((page) => page?.data) || [];
-
+    // console.log("students ; ",students)
     useEffect(() => {
         const ref = spinnerRef.current;
         if (!ref) return;

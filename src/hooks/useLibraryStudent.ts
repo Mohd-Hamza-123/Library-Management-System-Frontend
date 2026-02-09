@@ -185,7 +185,7 @@ export default function useLibraryStudent() {
         }
 
         const student = await response.json();
-        console.log(student)
+        // console.log(student)
 
         if (!student.success) {
             throw new Error(student.message || "Failed to fetch students")

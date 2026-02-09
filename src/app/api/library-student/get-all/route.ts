@@ -52,14 +52,17 @@ export async function GET(request: NextRequest) {
                 $project: {
                     students: 1,
                     block: "$_id",
-                    _id: 0
+                    _id: 0,
                 }
             }
         ])
 
+        const data =  payload.length === 0 ? [{ students: [], block: seat }] : payload 
+
+        console.log('payload : ', data)
 
         return NextResponse.json(
-            { success: true, data: payload, nextCursor: pageParam + 1 },
+            { success: true, data , nextCursor: pageParam + 1 },
             { status: 200 }
         );
 

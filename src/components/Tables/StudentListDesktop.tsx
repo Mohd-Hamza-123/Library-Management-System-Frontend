@@ -10,8 +10,10 @@ type StudentBlock = {
 
 export default function StudentListDesktop({ data, isLoading }: { data: StudentBlock[], isLoading: boolean }) {
 
+    console.log("StudentListDesktop", data)
     return (
         <section className="md:flex flex-col gap-5 py-8 hidden">
+
 
             {isLoading && <LibraryStudentTableSkeleton />}
 
@@ -36,7 +38,11 @@ export default function StudentListDesktop({ data, isLoading }: { data: StudentB
                             </tr>
                         </thead>
 
-                        <tbody className="divide-y divide-gray-100">
+
+                        <tbody className="divide-y divide-gray-100 border">
+                            {entity.students.length === 0 && <tr className="w-full text-center py-3 text-gray-800 border">
+                                <td colSpan={6} className="py-4 text-center text-md text-gray-400">No student In this block</td>
+                            </tr>}
                             {entity?.students?.map((student: Student, idx: number) => (
                                 <tr
                                     key={student._id}
